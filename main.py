@@ -39,6 +39,19 @@ def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be usef
     choice = input(prompt).strip().lower()
     return choice  # Return the actual input otherwise
 
+# have the door closing text and clear happen before loading the chamber please and thank you
+# pick your poison:
+def Fire(): # Flame
+    while True:
+        pass
+
+def Distain(): # Sewer
+    while True:
+        pass
+
+def Ice(): # Frost
+    while True:
+        pass
 
 
 #opening sequenceeee
@@ -112,7 +125,18 @@ while True: # Crime choice sequence
             print1("Emperor: Fine then, keep your secrets")
             game_state["pleading 2"] = True
             break
-# Murder = Damage, Theft = Evasion, Pleading(2) = Charisma        
+# Murder = Damage, Theft = Evasion, Pleading(2) = Charisma
+# roll variable out of 4
+damage = 1
+if game_state ["murder"] == True:
+    damage + 1
+evasion = 1
+if game_state ["theft"] == True:
+    evasion + 1
+charisma = 1
+if game_state ["pleading 2"] == True:
+    charisma + 1
+
 print1("Emperor: Well, onto the TRIALS OF AMENDMENT!!")
 print1(name + ": 'The... what?'")
 print1("Emperor: Now! In front of you are 3 doors!")
@@ -123,62 +147,48 @@ print1("Emperor: Ahem! Now, in front of you are 3 doors!")
 print1("Emperor: The first one leads to the TRIALS OF FIRE!!")
 print1("Emperor: The second one leads to the TRIALS OF DISTAIN!!")
 print1("Emperor: And finally, the third one leads to the TRIALS OF ICE!!")
-print1("Emperor: (personally this one is my favorite)") #no biases but im just saying yknow
+ #no biases but im just saying yknow the ice door is the goat
 print1("Emperor: Although you don't really have any rights, I'll give you the liberty of choice!")
-print1("Emperor: Which door do you want to choose? \n1. Trial of Fire \n2. Trial of Distain \n3. Trial of Ice")
 while True: # Crime choice sequence
-    print1 (name +": 'What crime did I commit again?' \n1. Murder \n2. Theft \n3. Attempts to overthrow the current political system through multistage conspiracy and bribery of government officials \n4. I'm not a criminal!") 
+    print1("Emperor: Which door do you want to choose? \n1. Trial of Fire \n2. Trial of Distain \n3. Trial of Ice")
     choice = get_input("")
-    if choice in ["1", "Murder"]:
-        if game_state ["murder"] == False:
-            print1(name + ": I... killed a man")
-            print1("Emperor: Well! There you have it! They killed someone in cold blood!")
-            print1(name + ": No, thats not what I mea-")
-            print1("You're promptly cut off by the booing of the crowd")
-            game_state["murder"] == True
-            break
-
-    elif choice in ["2", "Theft"]:
-        if game_state ["theft"] == False:
-            print1(name + ": I stole some bread so my family wouldn't starv-")
-            print1("Emperor: I see! So you stole food from a poor vendor trying to make a living... How horrible!")
-            print1(name + ": No, thats not what I mea-")
-            print1("You're promptly cut off by the booing of the crowd")
-            game_state["theft"] == True
-            break
-
-    elif choice in ["3", "Attempts to overthrow the current political system through multistage conspiracy and bribery of government officials"]:
-        if game_state ["funny"] == False: #yeah im not checking the gamestate system to see if it works we'll suffer later XD
-            print1(name +": Oh, uh, I tried to overthrow the current political system through multistag-... (wait what the hell no I didn't, who would even think of doing that??)")
-            print1("Emperor: ...")
-            print1("Emperor: I mean, uh, you wouldn't be the first, I guess?")
-            print1("Emperor: But what did you REALLY do?")
-            game_state["funny"] = True
-            
-        else: 
-            print1(name +": 'No I didn't...'")
-
-    elif choice in ["4", "I'm not a criminal!"]:
-        if game_state ["pleading 1"] == False:
-            print1(name  + ": I didn't do anything!")
-            print1("Emperor: Well, you certainly did something, otherwise you wouldn't be here right now, so don't lie to us.")
-            game_state["pleading 1"] = True
-            
-        else:
-            print1(name  + ": uhhhhh I swear on the name of.... (wait I don't even remember their names)... anyway I swear on god I ain't do nothin'") 
-            print1("Emperor: Fine then, keep your secrets")
-            game_state["pleading 2"] = True
-            break
-# have the door closing text and clear happen before loading the chamber please and thank you
-# pick your poison:
-def chamber1(): # Flame
-    while True:
-        pass
-
-def chamber2(): # Sewer
-    while True:
-        pass
-
-def chamber3(): # Frost
-    while True:
-        pass
+    if choice in ["1", "Fire", "Trial of Fire"]:
+        print1(name + ": I choose... the first door")
+        print1("Emperor: Oh come on, say it with enthusiasm! This is a joyous occasion!")
+        print1(name + ": fine... I choose The Trial of Fire!")
+        print1("Emperor: Then go on, criminal!")
+        print1("As you walk through the door of the chamber, the cheers quiet down...")
+        print1("It's hot. Go figure")
+        print1(name + ": 'Finally... it's quiet...'")
+        print1("And then the door slams shut, directly behind you")
+        print1(name + ": HOLY SH-")
+        print1("Family friendly game, brother")
+        print1(name + ": Oh. My bad")
+        print2("...")
+        print1(name + ": Wait, who am I talking to?")
+        Fire()
+    if choice in ["2", "Distain", "Trial of Distain"]:
+        print1(name + ": I choose... the second door door")
+        print1("Emperor: Oh... the Trial of Distain, huh...")
+        print1("Emperor: Well then, go on criminal")
+        print1("As you walk through the door of the chamber, the cheers quiet down...")
+        print1(name + ": 'Finally... it's quiet...'")
+        print1("And then the door slowly melds into place behind you")
+        print1(name + ": ...What the f-")
+        print1("Family friendly game, brother")
+        print1(name + ": Oh. My bad")
+        print2("...")
+        print1(name + ": Wait, who am I talking to?")
+        Distain()
+    if choice in ["3", "Ice", "Trial of Ice"]:
+        print1(name + ": I choose... the third door")
+        print1("Emperor: Say it's name.")
+        print1(name + ": fine... I choose The Trial of Ice...")
+        print1("Emperor: Then go, criminal")
+        print1("As you walk through the door of the chamber, the cheers quiet down...")
+        print1("It's cold. Go figure")
+        print1(name + ": 'Finally... it's quiet...'")
+        print1(name + ": 'and also freezing':/")
+        print1("And then the door slowly slides into place")
+        print1(name + ": Oh, that's... that's nice")
+        Ice()
