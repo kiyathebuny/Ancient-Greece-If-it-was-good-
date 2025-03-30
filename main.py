@@ -5,19 +5,19 @@ import sys#The sys module provides access to system-specific parameters and func
 from collections import Counter #counter is the number counter and collections
 import random #this is for random number generator 
 import os
-
-def clear():
+#Hi Mr.Nagra it's time for 2000 lines of code again
+def clear(): #this is our clear function it clear our terminal
     if(os.name == "nt"):
-        os.system("cls")
+        os.system("cls") #here is for our very cool windows users
     else:
-        os.system("clear")
+        os.system("clear") #this is for people who overpaid on Apple laptops
 
 def print1(str):
     for letter in str:
         sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(0.045)
-    print()
+        sys.stdout.flush() #this two line input and prints each character one by one
+        time.sleep(0.045) #our typing delay
+    print()#for spacing
 
 def print2(str):
     for letter in str:
@@ -26,7 +26,7 @@ def print2(str):
         time.sleep(0.5)
     print()
 
-game_state = {
+game_state = { #our game updates
     "murder":False,
     "theft":False,
     "funny":False,
@@ -36,12 +36,12 @@ game_state = {
 }
 
 def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be useful later
-    choice = input(prompt).strip().lower()
+    choice = input(prompt).strip().lower()# you know you love it .strip().lower() .strip mean basically remove any spaces in our choice and .lower makes everything lowercase
     return choice  # Return the actual input otherwise
 
 # have the door closing text and clear happen before loading the chamber please and thank you
 # pick your poison:
-def Fire(): # Flame
+def Fire(): # Flame <--- this is the equivalent of our folder of code ig basically when we called to it it'll basically open up this entire folder and run it line by line
     print1("As you walk through the blazing heat of the hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
@@ -94,11 +94,11 @@ def Ice(): # Frost
 print1 ("You start hearing cheers and yells coming from all around you")
 print1 ("Press enter to wake up")
 input()
-clear()
-for i in range(3):
-    for j in range(4):
-        print (j*("."))
-        time.sleep(0.1)
+clear()#I stole this from Ivan but I can explain it
+for i in range(3):#this loops are three dots a total of three times
+    for j in range(4): #this basically puts our dots in it starts at 0 and goes up to three because python with its funny numbers
+        print (j*(".")) #for every number in J for example 0 1 2 3 it will multiply it by the amount of dots so for example right now it will be 1 * 0 = 0 1 * 1 = 1
+        time.sleep(0.1) #delays out text
         clear()
 time.sleep(1.5)
 print1("You force yourself up from the sand reluctantly")
@@ -109,10 +109,10 @@ print1("You look around to find yourself in a sort of, arena?")
 print1("Before you can think of your surroudings, you hear the ringing of a bell, and the sounds of cheers get quieter...") # queue mizu5
 print1("You look up to see the Emperor sitting on his throne, all eyes on him") #yall i cant write for shit
 print1("The Emperor shouts,")
-print1("Emperor: TODAY, EVERYONE WILL WATCH THE TRIALS OF AMENDMENT, FOR THE HEINOUS CRIMES OF... wait, hold on, oh right THE CRIMES OF " + name.upper())
+print1("Emperor: TODAY, EVERYONE WILL WATCH THE TRIALS OF AMENDMENT, FOR THE HEINOUS CRIMES OF... wait, hold on, oh right THE CRIMES OF " + name.upper()) #makes it uppercase the opposite of .lower
 print1("Random Audience Member: ...What did they even do though?")
 print2("...")
-print1("The Emperor prompts one of the guards, and he beheads him immediately")
+print1("The Emperor prompts one of the guards, and he beheads him immediately") #L bozo
 print2("...")
 clear()
 print1("Emperor: ...With that out of the way, would you like to tell us what you've done? You criminal scum")
