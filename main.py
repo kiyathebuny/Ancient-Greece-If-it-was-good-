@@ -42,45 +42,51 @@ def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be usef
 # have the door closing text and clear happen before loading the chamber please and thank you
 # pick your poison:
 def Fire(): # Flame
-    clear()
     print1("As you walk through the blazing heat of the hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "First" "The first path"]:
+            clear()
             pass
         if choice in ["2", "Second" "The second path"]:
+            clear()
             pass
         if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            clear()
             pass
 
 def Distain(): # Sewer
-    clear()
     print1("As you walk through the seemingly normal hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "First" "The first path"]:
+            clear()
             pass
         if choice in ["2", "Second" "The second path"]:
+            clear()
             pass
         if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            clear()
             pass
 
 def Ice(): # Frost
-    clear()
     print1("As you walk through the freezing cold of the hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "First" "The first path"]:
+            clear()
             pass
         if choice in ["2", "Second" "The second path"]:
+            clear()
             pass
         if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            clear()
             pass
 
 
@@ -146,6 +152,7 @@ while True: # Crime choice sequence
 
     elif choice in ["4", "I'm not a criminal!"]:
         if game_state ["pleading 1"] == False:
+            clear()
             print1(name  + ": I didn't do anything!")
             print1("Emperor: Well, you certainly did something, otherwise you wouldn't be here right now, so don't lie to us.")
             game_state["pleading 1"] = True
@@ -170,7 +177,7 @@ if game_state ["pleading 2"] == True:
 print1("Emperor: Well, onto the TRIALS OF AMENDMENT!!")
 print1(name + ": 'The... what?'")
 print1("Emperor: Now! In front of you are 3 doors!")
-print1(name + ":What is this, the Monty Hall Problem? ")
+print1(name + ": What is this, the Monty Hall Problem? ")
 print1("Emperor: uhhh no, shut up")
 print1(name + ": T-T")
 print1("Emperor: Ahem! Now, in front of you are 3 doors!")
@@ -183,6 +190,7 @@ while True: # Door choice sequence
     print1("Emperor: Which door do you want to choose? \n1. Trial of Fire \n2. Trial of Distain \n3. Trial of Ice")
     choice = get_input("")
     if choice in ["1", "Fire", "Trial of Fire"]:
+        clear()
         print1(name + ": I choose... the first door")
         print1("Emperor: Oh come on, say it with enthusiasm! This is a joyous occasion!")
         print1(name + ": fine... I choose The Trial of Fire!")
@@ -198,6 +206,7 @@ while True: # Door choice sequence
         print1(name + ": Wait, who am I talking to?")
         Fire()
     if choice in ["2", "Distain", "Trial of Distain"]:
+        clear()
         print1(name + ": I choose... the second door")
         print1("Emperor: Oh... the Trial of Distain, huh...")
         print1("Emperor: Well then, go on criminal")
@@ -211,6 +220,7 @@ while True: # Door choice sequence
         print1(name + ": Wait, who am I talking to?")
         Distain()
     if choice in ["3", "Ice", "Trial of Ice"]:
+        clear()
         print1(name + ": I choose... the third door")
         print1("Emperor: Say it's name.")
         print1(name + ": fine... I choose The Trial of Ice...")
