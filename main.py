@@ -42,16 +42,46 @@ def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be usef
 # have the door closing text and clear happen before loading the chamber please and thank you
 # pick your poison:
 def Fire(): # Flame
+    clear()
+    print1("As you walk through the blazing heat of the hallway, you come across a split path")
+    print1(name + ": Yeah, what did I expect...")
     while True:
-        pass
+        print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
+        choice = get_input("")
+        if choice in ["1", "First" "The first path"]:
+            pass
+        if choice in ["2", "Second" "The second path"]:
+            pass
+        if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            pass
 
 def Distain(): # Sewer
+    clear()
+    print1("As you walk through the seemingly normal hallway, you come across a split path")
+    print1(name + ": Yeah, what did I expect...")
     while True:
-        pass
+        print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
+        choice = get_input("")
+        if choice in ["1", "First" "The first path"]:
+            pass
+        if choice in ["2", "Second" "The second path"]:
+            pass
+        if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            pass
 
 def Ice(): # Frost
+    clear()
+    print1("As you walk through the freezing cold of the hallway, you come across a split path")
+    print1(name + ": Yeah, what did I expect...")
     while True:
-        pass
+        print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
+        choice = get_input("")
+        if choice in ["1", "First" "The first path"]:
+            pass
+        if choice in ["2", "Second" "The second path"]:
+            pass
+        if choice in ["3", "Explore" "Maybe I should explore a bit more"]:
+            pass
 
 
 #opening sequenceeee
@@ -149,7 +179,7 @@ print1("Emperor: The second one leads to the TRIALS OF DISTAIN!!")
 print1("Emperor: And finally, the third one leads to the TRIALS OF ICE!!")
  #no biases but im just saying yknow the ice door is the goat
 print1("Emperor: Although you don't really have any rights, I'll give you the liberty of choice!")
-while True: # Crime choice sequence
+while True: # Door choice sequence
     print1("Emperor: Which door do you want to choose? \n1. Trial of Fire \n2. Trial of Distain \n3. Trial of Ice")
     choice = get_input("")
     if choice in ["1", "Fire", "Trial of Fire"]:
@@ -159,7 +189,7 @@ while True: # Crime choice sequence
         print1("Emperor: Then go on, criminal!")
         print1("As you walk through the door of the chamber, the cheers quiet down...")
         print1("It's hot. Go figure")
-        print1(name + ": 'Finally... it's quiet...'")
+        print1(name + ": 'Finally, it's quiet...'")
         print1("And then the door slams shut, directly behind you")
         print1(name + ": HOLY SH-")
         print1("Family friendly game, brother")
@@ -168,11 +198,11 @@ while True: # Crime choice sequence
         print1(name + ": Wait, who am I talking to?")
         Fire()
     if choice in ["2", "Distain", "Trial of Distain"]:
-        print1(name + ": I choose... the second door door")
+        print1(name + ": I choose... the second door")
         print1("Emperor: Oh... the Trial of Distain, huh...")
         print1("Emperor: Well then, go on criminal")
         print1("As you walk through the door of the chamber, the cheers quiet down...")
-        print1(name + ": 'Finally... it's quiet...'")
+        print1(name + ": 'Finally, it's quiet...'")
         print1("And then the door slowly melds into place behind you")
         print1(name + ": ...What the f-")
         print1("Family friendly game, brother")
@@ -187,7 +217,7 @@ while True: # Crime choice sequence
         print1("Emperor: Then go, criminal")
         print1("As you walk through the door of the chamber, the cheers quiet down...")
         print1("It's cold. Go figure")
-        print1(name + ": 'Finally... it's quiet...'")
+        print1(name + ": 'Finally, it's quiet...'")
         print1(name + ": 'and also freezing':/")
         print1("And then the door slowly slides into place")
         print1(name + ": Oh, that's... that's nice")
