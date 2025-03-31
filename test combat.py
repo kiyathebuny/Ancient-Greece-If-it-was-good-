@@ -34,9 +34,10 @@ def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be usef
 name = ("dave")
 enemy_HP = 100
 player_HP = 100
-damage = 10
-evasion = 10
-charisma = 10
+max_HP = 100
+evasion = 1
+charisma = 1
+damage = 0
 
 print1 ("Press enter to wake up")
 input()
@@ -61,28 +62,92 @@ while enemy_HP > 0:
     health_bar2 = '█' * player_bar
     empty_space2 = ' ' * (10 - player_bar)
 
-    print(f"\rEnemy HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
-    print1("")
-    print1("")
-    print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
+    print(f"\rEnemies HP:[{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
+    print("")
+    print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
     print("")
 
     if enemy_HP <= 0:
         break
 
-    print ("what would you like to do:"),
+    print1 ("what would you like to do: \n1. Magical Leaf \n2. Scratch \n3. heal"),
     choice = get_input("")
-    if choice in ["1" , "yes"]:
-        enemy_HP = max(0, enemy_HP - damage)  # Prevent negative HP during loop
+    if choice in ["1" , " Magical Leaf"]:
+        damage_rate = random.randint(15 , 25) + damage
+        enemy_dmg = random.randint(10, 20)
         clear()
-        print1 (f"You deal {damage} damage!")
+        enemy_attack = random.randint(1 , 10)
+        player_attack = random.randint(1 , 10)
+        if 0 <= player_attack <= 3:
+            print1("Your attack missed!")
 
-    else:
-        print1 ("you heal")
+        else:
+            enemy_HP = max(0, enemy_HP - damage_rate)
+            print1(f"You deal {damage_rate} damage!")
+
+        if enemy_HP > 0:
+            if 0 <= enemy_attack <= 3:
+                print1("The enemy's attack missed!")
+
+            elif evasion >= 2 and 0 <= enemy_attack <= 4:
+                print1("The enemy's attack missed!")
+                
+            else:
+                player_HP = max(0, player_HP - enemy_dmg)
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+
+
+
+    elif choice in ["2" , "Scratch"]:
+        damage_rate = random.randint(5, 15) + damage
+        enemy_dmg = random.randint(10, 20)
         clear()
+        enemy_attack = random.randint(1 , 10)
+        player_attack = random.randint(1 , 10)
+        if 0 <= player_attack <= 3:
+            print1("Your attack missed!")
+
+        else:
+            enemy_HP = max(0, enemy_HP - damage_rate)
+            print1(f"You deal {damage_rate} damage!")
+
+        if enemy_HP > 0:
+            if 0 <= enemy_attack <= 3:
+                print1("The enemy's attack missed!")
+
+            elif evasion >= 2 and 0 <= enemy_attack <= 4:
+                print1("The enemy's attack missed!")
+                
+            else:
+                player_HP = max(0, player_HP - enemy_dmg)
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+
+
+    elif choice in ["3" , "heal"]:
+        heal = 10
+        enemy_dmg = random.randint(5, 10)
+        player_HP = min(max_HP, player_HP + heal)
+        clear()
+        print1(f"You heal {heal} HP!")
+        enemy_attack = random.randint(1, 10)
+        if enemy_HP > 0:
+            if 0 <= enemy_attack <= 3:
+                print1("The enemy's attack missed!")
+
+            elif evasion >= 2 and 0 <= enemy_attack <= 4:
+                print1("The enemy's attack missed!")
+                
+            else:
+                player_HP = max(0, player_HP - enemy_dmg)
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+
 
     if enemy_HP <= 0:
         break
+    if player_HP <= 0:
+        break
         
     time.sleep(0.5)
-print(f"\rEnemy HP: [          ] 0", end='', flush=True)
+print(f"\rEnemies HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
+print("")
+print(f"\rPlayers HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
