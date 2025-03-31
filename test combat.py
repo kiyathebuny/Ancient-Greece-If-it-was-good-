@@ -31,13 +31,54 @@ def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be usef
     choice = input(prompt).strip().lower()# you know you love it .strip().lower() .strip mean basically remove any spaces in our choice and .lower makes everything lowercase
     return choice  # Return the actual input otherwise
 
+
+
+player_HP = 100
 name = ("dave")
 enemy_HP = 100
-player_HP = 100
 max_HP = 100
 evasion = 1
 charisma = 1
 damage = 0
+
+def enemy_attack_type():
+    global player_HP, enemy_HP, evasion
+    enemy_attack = random.randint(1 , 10)
+    if enemy_HP > 0:
+        if 0 <= enemy_attack <= 2:
+            print1("The enemy's attack missed!")
+
+        elif evasion >= 2 and 0 <= enemy_attack <= 4:
+            print1("The enemy's attack missed!")
+            
+        else:
+            enemy_attack_type = random.randint(1,10)
+            if 0 <= enemy_attack_type <= 4:
+                enemy_dmg = random.randint(10, 15)
+                print1 ("The Enemy used Dragon Claw")
+                player_HP = max(0, player_HP - enemy_dmg)
+                time.sleep (0.3)
+                clear()
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                return
+
+            elif 5 <= enemy_attack_type <= 8:
+                enemy_dmg = random.randint(10, 20)
+                print1 ("The Enemy used Flamethrower")
+                player_HP = max(0, player_HP - enemy_dmg)
+                time.sleep (0.3)
+                clear()
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                return
+
+            elif 9 <= enemy_attack_type <= 10:
+                enemy_dmg = random.randint(15, 25)
+                print1 ("The Enemy used Flamethrower")
+                player_HP = max(0, player_HP - enemy_dmg)
+                time.sleep (0.3)
+                clear()
+                print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                return
 
 print1 ("Press enter to wake up")
 input()
@@ -79,22 +120,13 @@ while enemy_HP > 0:
         enemy_attack = random.randint(1 , 10)
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 3:
+            enemy_attack_type()
             print1("Your attack missed!")
 
         else:
             enemy_HP = max(0, enemy_HP - damage_rate)
+            enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
-
-        if enemy_HP > 0:
-            if 0 <= enemy_attack <= 3:
-                print1("The enemy's attack missed!")
-
-            elif evasion >= 2 and 0 <= enemy_attack <= 4:
-                print1("The enemy's attack missed!")
-                
-            else:
-                player_HP = max(0, player_HP - enemy_dmg)
-                print1(f"The enemy strikes you for {enemy_dmg} damage!")
 
 
 
@@ -105,22 +137,13 @@ while enemy_HP > 0:
         enemy_attack = random.randint(1 , 10)
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 3:
+            enemy_attack_type()
             print1("Your attack missed!")
 
         else:
             enemy_HP = max(0, enemy_HP - damage_rate)
+            enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
-
-        if enemy_HP > 0:
-            if 0 <= enemy_attack <= 3:
-                print1("The enemy's attack missed!")
-
-            elif evasion >= 2 and 0 <= enemy_attack <= 4:
-                print1("The enemy's attack missed!")
-                
-            else:
-                player_HP = max(0, player_HP - enemy_dmg)
-                print1(f"The enemy strikes you for {enemy_dmg} damage!")
 
 
     elif choice in ["3" , "heal"]:
@@ -128,19 +151,8 @@ while enemy_HP > 0:
         enemy_dmg = random.randint(5, 10)
         player_HP = min(max_HP, player_HP + heal)
         clear()
+        enemy_attack_type()
         print1(f"You heal {heal} HP!")
-        enemy_attack = random.randint(1, 10)
-        if enemy_HP > 0:
-            if 0 <= enemy_attack <= 3:
-                print1("The enemy's attack missed!")
-
-            elif evasion >= 2 and 0 <= enemy_attack <= 4:
-                print1("The enemy's attack missed!")
-                
-            else:
-                player_HP = max(0, player_HP - enemy_dmg)
-                print1(f"The enemy strikes you for {enemy_dmg} damage!")
-
 
     if enemy_HP <= 0:
         break
