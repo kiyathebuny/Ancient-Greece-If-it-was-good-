@@ -63,7 +63,7 @@ def enemy_attack_type():
                 return
 
             elif 5 <= enemy_attack_type <= 8:
-                enemy_dmg = random.randint(10, 20)
+                enemy_dmg = random.randint(15, 20)
                 print1 ("The Enemy used Flamethrower")
                 player_HP = max(0, player_HP - enemy_dmg)
                 time.sleep (0.3)
@@ -72,7 +72,7 @@ def enemy_attack_type():
                 return
 
             elif 9 <= enemy_attack_type <= 10:
-                enemy_dmg = random.randint(15, 25)
+                enemy_dmg = random.randint(20, 30)
                 print1 ("The Enemy used Flamethrower")
                 player_HP = max(0, player_HP - enemy_dmg)
                 time.sleep (0.3)
