@@ -49,7 +49,7 @@ def enemy_attack_type():
     global player_HP, enemy_HP, evasion
     enemy_attack = random.randint(1 , 10)
     if enemy_HP > 0:
-        if 0 <= enemy_attack <= 1:
+        if 0 <= enemy_attack <= 2:
             print1("The enemy's attack missed!")
 
         elif evasion >= 2 and 0 <= enemy_attack <= 3:
@@ -57,29 +57,26 @@ def enemy_attack_type():
             
         else:
             enemy_attack_type = random.randint(1,10)
-            if 0 <= enemy_attack_type <= 4:
+            if 0 <= enemy_attack_type <= 5:
                 enemy_dmg = random.randint(15, 20)
                 print1 ("The Enemy used Dragon Claw")
                 player_HP = max(0, player_HP - enemy_dmg)
-                time.sleep (0.3)
                 clear()
                 print1(f"The enemy strikes you for {enemy_dmg} damage!")
                 return
 
-            elif 5 <= enemy_attack_type <= 8:
+            elif 6 <= enemy_attack_type <= 9:
                 enemy_dmg = random.randint(15, 25)
                 print1 ("The Enemy used Dragon Breath")
                 player_HP = max(0, player_HP - enemy_dmg)
-                time.sleep (0.3)
                 clear()
                 print1(f"The enemy strikes you for {enemy_dmg} damage!")
                 return
 
-            elif 9 <= enemy_attack_type <= 10:
+            elif enemy_attack_type == 10:
                 enemy_dmg = random.randint(25, 35)
                 print1 ("The Enemy used Flamethrower")
                 player_HP = max(0, player_HP - enemy_dmg)
-                time.sleep (0.3)
                 clear()
                 print1(f"The enemy strikes you for {enemy_dmg} damage!")
                 return
@@ -108,7 +105,8 @@ while enemy_HP > 0:
     player_bar = player_HP // 10
     health_bar2 = '█' * player_bar
     empty_space2 = ' ' * (10 - player_bar)
-
+    counter += 1
+    print(f"[Magical Leaf: {attack_1}/3 Scratch: {attack_2}/4 Heal: N/A]")
     print(f"\rEnemies HP:[{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
     print("")
     print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
@@ -120,22 +118,18 @@ while enemy_HP > 0:
     print1 ("what would you like to do: \n1. Magical Leaf \n2. Scratch \n3. heal"),
     choice = get_input("")
     if choice in ["1" , " Magical Leaf"]:
-        attack_1 += 1
         damage_rate = random.randint(15 , 25) + damage
         clear()
         player_attack = random.randint(1 , 10)
-        if 0 <= player_attack <= 3:
+        if 0 <= player_attack <= 2:
             enemy_attack_type()
             print1("Your attack missed!")
-        elif attack_1 >= 4 and 0 <= player_attack <= 7:
+            counter -= 1
+        elif attack_1 >= 3 and 0 <= player_attack <= 9:
             enemy_attack_type()
-            print1("Your attack failed!")
-            print1("this attack is on cooldown...")
-            counter += 1
-            if counter == 2:
-                counter *= 0
-                attack_1 *= 0
+            print1("Your attack missed!")
         else:
+            attack_1 += 1
             enemy_HP = max(0, enemy_HP - damage_rate)
             enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
@@ -143,25 +137,21 @@ while enemy_HP > 0:
 
 
 
-    elif choice in ["2" , "Scratch"]:
-        attack_2 += 1
+    elif choice in [f"2" , "Scratch"]:
         damage_rate = random.randint(5, 15) + damage
         clear()
         player_attack = random.randint(1 , 10)
-        if 0 <= player_attack <= 3:
+        if 0 <= player_attack <= 2:
             enemy_attack_type()
             print1("Your attack missed!")
+            counter -= 1
         
-        elif attack_2 >= 11 and 0 <= player_attack <= 7:
+        elif attack_2 >= 4 and 0 <= player_attack <= 9:
             enemy_attack_type()
-            print1("Your attack failed!")
-            print1("this attack is on cooldown...")
-            counter += 1
-            if counter == 2:
-                counter *= 0
-                attack_2 *= 0
+            print1("Your attack missed!")
 
         else:
+            attack_2 += 1
             enemy_HP = max(0, enemy_HP - damage_rate)
             enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
@@ -173,9 +163,16 @@ while enemy_HP > 0:
         clear()
         enemy_attack_type()
         print1(f"You heal {heal} HP!")
+        counter -= 1
 
     else:
+        counter -= 1
         clear()
+    
+    if counter == 5:
+        counter *= 0
+        attack_1 *= 0
+        attack_2 *= 0
 
     if enemy_HP <= 0 or player_HP <= 0:
         attack_1 *= 0
