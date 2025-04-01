@@ -45,10 +45,10 @@ def enemy_attack_type():
     global player_HP, enemy_HP, evasion
     enemy_attack = random.randint(1 , 10)
     if enemy_HP > 0:
-        if 0 <= enemy_attack <= 2:
+        if 0 <= enemy_attack <= 1:
             print1("The enemy's attack missed!")
 
-        elif evasion >= 2 and 0 <= enemy_attack <= 4:
+        elif evasion >= 2 and 0 <= enemy_attack <= 3:
             print1("The enemy's attack missed!")
             
         else:
@@ -64,7 +64,7 @@ def enemy_attack_type():
 
             elif 5 <= enemy_attack_type <= 8:
                 enemy_dmg = random.randint(15, 20)
-                print1 ("The Enemy used Flamethrower")
+                print1 ("The Enemy used Dragon Breath")
                 player_HP = max(0, player_HP - enemy_dmg)
                 time.sleep (0.3)
                 clear()
@@ -93,6 +93,8 @@ print1 ("as you're about to enter the next room you come across a very tall Drag
 print1 (name + (": this is just a Pokémon..."))
 print1 ("you find urself with a Sprigatito")
 print1 ("you are about to start combat")
+time.sleep(0.2)
+clear()
 while enemy_HP > 0:
     #enemy bar
     enemy_bar = enemy_HP // 10
@@ -115,9 +117,7 @@ while enemy_HP > 0:
     choice = get_input("")
     if choice in ["1" , " Magical Leaf"]:
         damage_rate = random.randint(15 , 25) + damage
-        enemy_dmg = random.randint(10, 20)
         clear()
-        enemy_attack = random.randint(1 , 10)
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 3:
             enemy_attack_type()
@@ -127,14 +127,13 @@ while enemy_HP > 0:
             enemy_HP = max(0, enemy_HP - damage_rate)
             enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
+            
 
 
 
     elif choice in ["2" , "Scratch"]:
         damage_rate = random.randint(5, 15) + damage
-        enemy_dmg = random.randint(10, 20)
         clear()
-        enemy_attack = random.randint(1 , 10)
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 3:
             enemy_attack_type()
@@ -147,19 +146,16 @@ while enemy_HP > 0:
 
 
     elif choice in ["3" , "heal"]:
-        heal = 10
+        heal = random.randint(10, 20)
         enemy_dmg = random.randint(5, 10)
         player_HP = min(max_HP, player_HP + heal)
         clear()
         enemy_attack_type()
         print1(f"You heal {heal} HP!")
 
-    if enemy_HP <= 0:
+    if enemy_HP <= 0 or player_HP <= 0:
+        time.sleep(0.5)
+        print(f"\rEnemies HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
+        print("")
+        print(f"\rPlayers HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         break
-    if player_HP <= 0:
-        break
-        
-    time.sleep(0.5)
-print(f"\rEnemies HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
-print("")
-print(f"\rPlayers HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
