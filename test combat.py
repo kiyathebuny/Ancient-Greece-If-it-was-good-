@@ -74,7 +74,7 @@ def enemy_attack_type():
                 return
 
             elif enemy_attack_type == 10:
-                enemy_dmg = random.randint(25, 35)
+                enemy_dmg = random.randint(25, 30)
                 print1 ("The Enemy used Flamethrower")
                 player_HP = max(0, player_HP - enemy_dmg)
                 clear()
@@ -118,7 +118,7 @@ while enemy_HP > 0:
     print1 ("what would you like to do: \n1. Magical Leaf \n2. Scratch \n3. heal"),
     choice = get_input("")
     if choice in ["1" , " Magical Leaf"]:
-        damage_rate = random.randint(15 , 25) + damage
+        damage_rate = random.randint(15 , 30) + damage
         clear()
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 2:
@@ -138,7 +138,7 @@ while enemy_HP > 0:
 
 
     elif choice in [f"2" , "Scratch"]:
-        damage_rate = random.randint(5, 15) + damage
+        damage_rate = random.randint(10, 20) + damage
         clear()
         player_attack = random.randint(1 , 10)
         if 0 <= player_attack <= 2:
