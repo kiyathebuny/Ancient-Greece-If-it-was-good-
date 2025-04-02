@@ -26,6 +26,20 @@ def print2(str):
         time.sleep(0.5)
     print()
 
+def print3(str):
+    for letter in str:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(0.3)
+
+def print4(str):
+    for letter in str:
+        sys.stdout.write(letter)
+        sys.stdout.flush() #this two line input and prints each character one by one
+        time.sleep(0.045) #our typing delay
+
+
+
 board = [
         ["X", "X", "O"],
         [" ", "X", "O"],
@@ -58,34 +72,188 @@ game_state = { #our game updates
     "cube_south":False,
     "attempted_sacrifice":False,
     "checked_door":False,
+    "bridge_investigation":False,
+    "room_investigation":False,
 
 }
 
-#Ok so ignore the autism that is player hp being an argument for everything, uh was struggling with globals and just decided to screw it and slap a bandaid on the code lmao
+player_HP = 100
+enemy_HP = 0
+damage = 0
+evasion = 0
+enemy_miss_chance = 10 # change later
+player_miss_chance = 10
+attack_name_1 = "Attack 1"
+attack_name_2 = "Attack 2"
+attack_name_3 = "Attack 3"
 
 def get_input(prompt=""): # Yeah this is 100% irrelevant rn but it might be useful later
     choice = input(prompt).strip().lower()# you know you love it .strip().lower() .strip mean basically remove any spaces in our choice and .lower makes everything lowercase
     return choice  # Return the actual input otherwise
 
+def fighting():
+    global enemy_HP, player_miss_chance, player_HP
+    max_HP = 100
+    counter = 0
+    attack_1 = 0
+    attack_2 = 0
+    heal = 0
+    shuffle_counter = 0
+
+    def enemy_attack_type():
+        global player_HP, enemy_HP, evasion, enemy_miss_chance
+        enemy_attack = random.randint(1 , enemy_miss_chance)
+        if enemy_HP > 0:
+            if 0 <= enemy_attack <= 2:
+                print1("The enemies attack bounced off your shield!")
+
+            elif evasion >= 2 and 0 <= enemy_attack <= 3:
+                print1("You dodged the enemies attack!")
+                
+            else:
+                enemy_attack_type = random.randint(1,10)
+                if 0 <= enemy_attack_type <= 5:
+                    enemy_dmg = random.randint(15, 20)
+                    print1 (f"The Enemy used {attack_name_1}")
+                    player_HP = max(0, player_HP - enemy_dmg)
+                    clear()
+                    print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                    return
+
+                elif 6 <= enemy_attack_type <= 9:
+                    enemy_dmg = random.randint(15, 25)
+                    print1 (f"The Enemy used {attack_name_2}")
+                    player_HP = max(0, player_HP - enemy_dmg)
+                    clear()
+                    print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                    return
+
+                elif enemy_attack_type == 10:
+                    enemy_dmg = random.randint(25, 30)
+                    print1 (f"The Enemy used {attack_name_3}")
+                    player_HP = max(0, player_HP - enemy_dmg)
+                    clear()
+                    print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                    return
+
+    while enemy_HP > 0:
+        #enemy bar
+        enemy_bar = enemy_HP // 10
+        health_bar1 = '█' * enemy_bar
+        empty_space1 = ' ' * (10 - enemy_bar)
+        #player bar
+        player_bar = player_HP // 10
+        health_bar2 = '█' * player_bar
+        empty_space2 = ' ' * (10 - player_bar)
+        counter += 1
+        print(f"[Slash: {attack_1}/3 | Stab: {attack_2}/4 | Heal: N/A]")
+        print(f"\rEnemies HP:[{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
+        print("")
+        print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
+        print("")
+
+        if enemy_HP <= 0:
+            break
+        
+        if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal \n4. Slide forwards")
+        else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal"),
+        choice = get_input("")
+        if choice in ["1" , " slash"]:
+            damage_rate = random.randint(15 , 30) + damage
+            clear()
+            player_attack = random.randint(1 , player_miss_chance)
+            if 0 <= player_attack <= 2:
+                enemy_attack_type()
+                print1("Your attack missed!")
+                counter -= 1
+            elif attack_1 >= 3 and 0 <= player_attack <= 9:
+                enemy_attack_type()
+                print1("Your attack missed!")
+            else:
+                attack_1 += 1
+                enemy_HP = max(0, enemy_HP - damage_rate)
+                enemy_attack_type()
+                print1(f"You deal {damage_rate} damage!")
+
+        elif choice in [f"2" , "stab"]:
+            damage_rate = random.randint(10, 20) + damage
+            clear()
+            player_attack = random.randint(1 , player_miss_chance)
+            if 0 <= player_attack <= 2:
+                enemy_attack_type()
+                print1("Your attack missed!")
+                counter -= 1
+            
+            elif attack_2 >= 4 and 0 <= player_attack <= 9:
+                enemy_attack_type()
+                print1("Your attack missed!")
+
+            else:
+                attack_2 += 1
+                enemy_HP = max(0, enemy_HP - damage_rate)
+                enemy_attack_type()
+                print1(f"You deal {damage_rate} damage!")
+
+
+        elif choice in ["3" , "heal"]:
+            heal = random.randint(15, 25)
+            player_HP = min(max_HP, player_HP + heal)
+            clear()
+            enemy_attack_type()
+            print1(f"You heal {heal} HP!")
+            counter -= 1
+
+        elif choice in ["4" , "shuffle"]:
+            if game_state["cube_south"] == True:
+                clear()
+                print("You shuffle ever so closer to the enemy")
+                shuffle_counter += 1
+            else: continue
+
+        else:
+            counter -= 1
+            clear()
+        
+        if counter == 5:
+            counter *= 0
+            attack_1 *= 0
+            attack_2 *= 0
+
+        if shuffle_counter >= 5:
+            print1("You enter melee range of the totem")
+            player_miss_chance = 100
+
+        if enemy_HP <= 0 or player_HP <= 0:
+            attack_1 *= 0
+            attack_2 *= 0
+            counter *= 0
+            time.sleep(0.5)
+            print(f"\rEnemies HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
+            print("")
+            print(f"\rPlayers HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
+            break
+
 # have the door closing text and clear happen before loading the chamber please and thank you
 # pick your poison:
-def FirePuzzle1(player_HP):
+def FirePuzzle1():
+    global player_HP
     while True:
         player_bar = player_HP // 10
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" " +name + ": 'How should I go about this?' \n1. Step on the first tile\n2. Step on the second tile\n3. Step on the third tile\n4. Observe your surroundings")
+        print()
+        print1(name + ": 'How should I go about this?' \n1. Step on the first tile\n2. Step on the second tile\n3. Step on the third tile\n4. Observe your surroundings")
         choice = get_input("")
         
-        if choice in ["1", "First" "Step on the first tile"]: 
+        if choice in ["1", "first" "step on the first tile"]: 
             if game_state["wrong_tile_1-1"] == False:
                 print1("As you step onto the first tile, you feel the ground underneath you sink in, as a pillar of fire erupts from your current location")
                 if evasion == 2: 
                     print1("You barely manage to stumble back to where you started, lucky you!")
                 else:
                     print1("You burn your leg badly as you stumble back to where you started. Ouch.")
-                    player_HP -= 20
+                    player_HP -= 34
                 if game_state["wrong_tile"] == False:
                     print1(name+": JESUS CHRIS- oh wait wrong religion uhhhh ouch owie owww ):")
                     game_state["wrong_tile_1-1"] = True
@@ -97,7 +265,7 @@ def FirePuzzle1(player_HP):
 
             else: print1(name+": I'm not stepping on that tile again...")
             
-        if choice in ["3", "Third" "Step on the third tile"]: #
+        if choice in ["3", "third" "step on the third tile"]: 
             if game_state["wrong_tile_1-2"] == False:
                 print1("As you step onto the third tile, you feel the ground underneath you sink in, as a pillar of fire erupts from your current location")
                 if evasion == 2: 
@@ -105,7 +273,7 @@ def FirePuzzle1(player_HP):
 
                 else:
                     print1("You burn your leg badly as you stumble back to where you started. Ouch.")
-                    player_HP -= 20
+                    player_HP -= 34
 
                 if game_state["wrong_tile"] == False:
                     print1(name+": JESUS CHRIS- oh wait wrong religion uhhhh ouch owie owww ):")
@@ -116,14 +284,14 @@ def FirePuzzle1(player_HP):
                     game_state["wrong_tile_1-2"] = True
             else: print1(name+": I'm not stepping on that tile again...")
 
-        if choice in ["2", "Second" "Step on the second tile"]: #
+        if choice in ["2", "second" "step on the second tile"]: #
             print1("As you step onto the second tile, you feel... nothing?")
             if game_state["wrong_tile"] == True: print1(name+": So it's this tile...")
             else: print1(name+": That's... strange")
-            FirePuzzle2(player_HP)
+            FirePuzzle2()
             break #idk if this is needed but just incase yknow
 
-        if choice in ["4", "Observe" "Observe your surroundings"]: #
+        if choice in ["4", "observe" "observe your surroundings"]: #
             if game_state["check_board"] == False:
                 print1("You look around the walls of the cavern, you notice various different carvings in the walls")
                 print1("Notably, one of them resembles something you recognize, a game of Tic-Tac-Toe")
@@ -136,24 +304,26 @@ def FirePuzzle1(player_HP):
                 print()
                 print1(name+": Does this... mean something?")
 
-def FirePuzzle2(player_HP):
+def FirePuzzle2():
+    global player_HP
     print1("Well, you managed to step on the right tile, but theres 2 more sets in front of you. Good luck!")
     while True:
         player_bar = player_HP // 10
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" " +name + ": 'How should I go about this?' \n1. Step on the first tile\n2. Step on the second tile\n3. Step on the third tile\n4. Observe your surroundings")
+        print()
+        print1(name + ": 'How should I go about this?' \n1. Step on the first tile\n2. Step on the second tile\n3. Step on the third tile\n4. Observe your surroundings")
         choice = get_input("")
         
-        if choice in ["1", "First" "Step on the first tile"]: 
+        if choice in ["1", "first" "step on the first tile"]: 
             if game_state["wrong_tile_2-1"] == False:
                 print1("As you step onto the first tile, you feel the ground underneath you sink in, as a pillar of fire erupts from your current location")
                 if evasion == 2: 
                     print1("You barely manage to stumble back to where you started, lucky you!")
                 else:
                     print1("You burn your leg badly as you stumble back to where you started. Ouch.")
-                    player_HP -= 20
+                    player_HP -= 34
                 if game_state["wrong_tile"] == False:
                     print1(name+": JESUS CHRIS- oh wait wrong religion uhhhh ouch owie owww ):")
                     game_state["wrong_tile_2-1"] = True
@@ -165,7 +335,7 @@ def FirePuzzle2(player_HP):
 
             else: print1(name+": I'm not stepping on that tile again...")
             
-        if choice in ["2", "Second" "Step on the second tile"]: #
+        if choice in ["2", "second" "step on the second tile"]: #
             if game_state["wrong_tile_2-2"] == False:
                 print1("As you step onto the second tile, you feel the ground underneath you sink in, as a pillar of fire erupts from your current location")
                 if evasion == 2: 
@@ -173,7 +343,7 @@ def FirePuzzle2(player_HP):
 
                 else:
                     print1("You burn your leg badly as you stumble back to where you started. Ouch.")
-                    player_HP -= 20
+                    player_HP -= 34
 
                 if game_state["wrong_tile"] == False:
                     print1(name+": JESUS CHRIS- oh wait wrong religion uhhhh ouch owie owww ):")
@@ -184,14 +354,14 @@ def FirePuzzle2(player_HP):
                     game_state["wrong_tile_2-2"] = True
             else: print1(name+": I'm not stepping on that tile again...")
 
-        if choice in ["3", "Third" "Step on the third tile"]: #
+        if choice in ["3", "third" "step on the third tile"]: #
             print1("As you step onto the third tile, you feel... nothing?")
             if game_state["wrong_tile"] == True: print1(name+": It's number 3 this time")
             else: print1(name+": Do these tiles even do anything?")
-            FirePuzzle3(player_HP)
+            FirePuzzle3()
             break #idk if this is needed but just incase yknow
 
-        if choice in ["4", "Observe" "Observe your surroundings"]: #
+        if choice in ["4", "observe" "observe your surroundings"]: #
             if game_state["check_board"] == False:
                 print1("You look around the walls of the cavern, you notice various different carvings in the walls")
                 print1("Notably, one of them resembles something you recognize, a game of Tic-Tac-Toe")
@@ -204,24 +374,26 @@ def FirePuzzle2(player_HP):
                 print()
                 print1(name+": Does this... mean something?")
         
-def FirePuzzle3(player_HP):
+def FirePuzzle3():
+    global player_HP
     print1("That's another one down, and one more to go")
     while True:
         player_bar = player_HP // 10
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" " +name + ": 'How should I go about this?' \n1. Step on the second tile\n2. Step on the third tile\n3. Observe your surroundings")
+        print()
+        print1(name + ": 'How should I go about this?' \n1. Step on the second tile\n2. Step on the third tile\n3. Observe your surroundings")
         choice = get_input("")
         
-        if choice in ["1", "Second" "Step on the second tile"]: 
+        if choice in ["1", "second" "step on the second tile"]: 
             if game_state["wrong_tile_3"] == False:
                 print1("As you step onto the second tile, you feel the ground underneath you sink in, as a pillar of fire erupts from your current location")
                 if evasion == 2: 
                     print1("You barely manage to stumble back to where you started, lucky you!")
                 else:
                     print1("You burn your leg badly as you stumble back to where you started. Ouch.")
-                    player_HP -= 20
+                    player_HP -= 34
                 if game_state["wrong_tile"] == False:
                     print1(name+": JESUS CHRIS- oh wait wrong religion uhhhh ouch owie owww ):")
                     game_state["wrong_tile_3"] = True
@@ -233,13 +405,13 @@ def FirePuzzle3(player_HP):
 
             else: print1(name+": I'm not stepping on that tile again...")
             
-        if choice in ["2", "Third" "Step on the third tile"]: #
+        if choice in ["2", "third" "step on the third tile"]: #
             print1("As you step onto the third tile, you feel nothing again")
             if game_state["wrong_tile"] == True: print1(name+": It's number 3 again...")
             else: print1(name+": Huh, that was suprisingly easy!")
             break
 
-        if choice in ["3", "Observe" "Observe your surroundings"]: #
+        if choice in ["3", "observe" "observe your surroundings"]: #
             if game_state["check_board"] == False:
                 print1("You look around the walls of the cavern, you notice various different carvings in the walls")
                 print1("Notably, one of them resembles something you recognize, a game of Tic-Tac-Toe")
@@ -252,54 +424,188 @@ def FirePuzzle3(player_HP):
                 print()
                 print1(name+": Does this... mean something?")
             
-def Fire(player_HP): # Flame <--- this is the equivalent of our folder of code ig basically when we called to it it'll basically open up this entire folder and run it line by line
+def Fire(): # Flame <--- this is the equivalent of our folder of code ig basically when we called to it it'll basically open up this entire folder and run it line by line
     #ok sick so now we gotta add chamber specific traps - 3x3 tile, the order is 2, 3, 3
     print1("Walking through the fiery hall in front of you leads to a room with a square, checkered floor")
     print1("You're greeted by a 3x3 set of tiles, and across from it is, well, more hallway...")
     print1(name + ": Well, I guess it's a trial for a reason")
-    FirePuzzle1(player_HP)
+    FirePuzzle1()
      
     print1("As you continue walking through the blazing heat of the hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
-        if choice in ["1", "First" "The first path"]:
+        if choice in ["1", "first" "the first path"]:
             clear()
             pass
-        elif choice in ["2", "Second" "The second path"]:
+        elif choice in ["2", "second" "the second path"]:
             clear()
             pass
-        elif choice in ["3", "Explore" "Maybe I should explore a bit more"]:
-            clear()
-            pass
+        elif choice in ["3", "explore" "maybe i should explore a bit more"]:
+            print1("You search around the hallway, but aside from the molten rock embedded in the wall, nothing stands out")
+            print1(name+": Nothing useful...")
 
-def Distain(player_HP): # Sewer
-    print1("As you walk through the seemingly normal hallway, you come across a split path")
+def firedeath(): 
+    global player_HP
+    print1("I'm going to go out on a limb here (lol) and say you burned your leg too much")
+    print1("Eventually, the pain gets to you, and you pass out")
+    print1("And also bleed out, and before you say the wound would cauterize itself, uhhh")
+    print1("Yeah this is my world and I make the rules so like, deal with it lmao")
+    print3("ENDING 2")
+    print1(" | 'MYY LEGGGGGG  - Fred the Fish'")
+    game_state["check_board"] = False
+    game_state["wrong_tile"] = False
+    game_state["wrong_tile_1-1"] = False
+    game_state["wrong_tile_1-2"] = False
+    game_state["wrong_tile_2-1"] = False
+    game_state["wrong_tile_2-2"] = False
+    game_state["wrong_tile_3"] = False
+    player_HP = 100
+    FirePuzzle1()
+
+def DistainBridge():
+    distance_counter = 0
+    while True:
+        if distance_counter <= 10:
+            print1("You've crossed 10/10 meters of the bridge!")
+            print1("You make it to the other side of the bridge, intact, very impressive!")
+            print1("The hallway in front of you clears up, increasing the visibility a little")
+            print1(name+": 'Guess I'll keep moving...'")
+        else:
+            print1(f"You've crossed {distance_counter}/10 meters of the bridge!")
+            print1("'How should I cross this part of the bridge' \n1. Fast and dangerous\n2. Steady and careful\n3. Slow and cautious")
+            choice = get_input("")
+            if choice in ["1", "fast", "fast and dangerous"]:
+                print1("You cross the section of the bridge very quickly")
+                print2("...")
+                motionchance = random.randint(1,5)
+                if motionchance <= evasion:
+                    distance_counter += 5
+                else:
+                    print1("One of the statues catches you, and launches a projectile at your feet, destroying the bridge")
+                    distaindeath()
+            elif choice in ["2", "steady", "steady and careful"]:
+                print1("You cross the section of the bridge moderately quickly")
+                print2("...")
+                motionchance = random.randint(1,3)
+                if motionchance <= evasion:
+                    distance_counter +=3
+                else:
+                    print1("One of the statues manages to catch you, and launches a projectile at your feet, destroying the bridge")
+                    distaindeath()
+            elif choice in ["3", "slow", "slow and cautious"]: # This is guarenteed to avoid getting stuck by being unlucky
+                print4("You cross the section of the bridge")
+                print3("INCREDIBLY")
+                print1("slowly")
+                distance_counter += 1
+            print1("The statues open their eyes, and you freeze in time, holding your breath, waiting for their eyes to close")
+            print2("...")
+            print1("Eventually, your chance comes")
+
+def DistainPuzzle():
+    while True:
+        if game_state["room_investigation"] == False: print1 (name +": 'How should I cross this bridge' \n1. Quickly\n2. Slowly\n3. Investigate")
+        else: print1 (name +": 'How should I cross this bridge' \n1. Quickly\n2. Slowly\n3. Investigate \n4. Carefully")
+        choice = get_input("")
+        if choice in ["1", "quickly"]:
+            print1("You attempt to run as fast as you can across this damaged bridge, which, I mean I don't know what you expected")
+            print1("Fully focused on the end, you don't see why the bridge snaps, all you see is that it snaps")
+            distaindeath()
+        elif choice in ["2", "slowly"]:
+            print1("You cautiously walk across this bridge, focused on the flayed rope that holds it in place, and the stability of the planks under your feet")
+            print1(name+": 'Man I really hope this bridge doesn't blow up directly underneat-'")
+            print1("And with that, you notice a bolt of, something, fly out from something on your left")
+            evadechance = random.randint(1, 4)
+            if evadechance >= evasion:
+                print1("You manage to swiftly get out of the way, and whatever flew at you didn't hit the bridge!")
+                print1("As your eyes dart to the location of the projectile, you notice several statues")
+                print1("They seem to be watching the bridge, and also...")
+                print1(name+": 'They're... blinking?'")
+                game_state["room_investigation"] = True
+            else:
+                print1("You deflect the projectile with your shield, but it hits one of the tethers, causing the bridge to collapse")
+                distaindeath()
+        elif choice in ["3", "investigate"]:
+            if game_state["bridge_investigation"] == False:
+                print1("Upon closer inspection of the bridge, you realize that...")
+                print1("It's really old... and also would shatter if more than one people walked on it")
+                game_state["bridge_investigation"] = True
+            else: 
+                print1("Upon closer inspection of the room itself, you notice peculiar statues on the left and right")
+                print1("They seem to be watching the bridge, and also...")
+                print1(name+": 'They're... blinking?'")
+                game_state["room_investigation"] = True
+        elif choice in ["4", "carefully"]:
+            if game_state["room_investigation"] == False:
+                continue #essentially so you cant just type 4 and get away with it
+            else: 
+                print1("You start to cross the bridge carefully, and as your foot moves towards the bridge, you notice one of the statues change")
+                print1("It's looking directly at you")
+                print1("You freeze in terror")
+                print1(name+": What the...")
+                print1("Your train of thought is interupted by the statues blink, its gaze no longer focused on you")
+                print4("It's as if")
+                print3("...")
+                print1("it can't see you anymore")
+                print1(name+": Maybe it's triggered by... movement?")
+                DistainBridge()
+                break
+
+
+def Distain(): # Sewer
+    print1("Walking through the smokey hallway in front of you leads you to a rickety looking bridge")
+    print1("The bridge seems to be made of old planks, tethered with flayed ropes, and held together by a highschool students hopes and dreams") #just like pygame
+    print1("wait a minute...")
+    print1(name+": 'How is there a bridge in this narrow cavern?'")
+    print1("(uhh worldbuilding you gotta believe me)")
+    DistainPuzzle()
+
+
+    print1("As you continue to walk through the seemingly normal hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
-        if choice in ["1", "First" "The first path"]:
+        if choice in ["1", "first" "the first path"]:
             clear()
             pass
-        elif choice in ["2", "Second" "The second path"]:
+        elif choice in ["2", "second" "the second path"]:
             clear()
             pass
-        elif choice in ["3", "Explore" "Maybe I should explore a bit more"]:
-            clear()
-            pass
+        elif choice in ["3", "explore" "maybe i should explore a bit more"]:
+            print1("You search around the hallway, but aside from the stones decorating the floor, nothing stands out")
+            print1(name+": Nothing useful...")
 
-def EastWall(player_HP):
+def distaindeath():#L BOZO
+    print1("And with it, you plummet down below")
+    print1("[*insert really funny falling noises, followed by the flesh being dissolved, accompanied by the screams of the damned*]")
+    print2("...")
+    print1("Uh, ok skipping past that horrifying experience, you died!")
+    print1("If you couldn't tell")
+    print3("ENDING 3")
+    print1(" | 'No, I would never steal this puzzle idea of a D&D reddit post, you gotta believe me'")
+    if game_state["room_investigation"] == False:
+        game_state["bridge_investigation"] = False
+        DistainPuzzle()
+    else: 
+        # gamestates check
+        DistainBridge()
+
+def EastWall():
+    global player_HP
     while True:
         player_HP -= 5
         player_bar = player_HP // 10
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" "+name+": 'Awesome! What now...' \n1. Press a random button\n2. Press all 3 buttons \n3. Just slash the ice and take it")
+        print()
+        if player_HP >= 0:
+            icedeath()
+        print1(name+": 'Awesome! What now...' \n1. Press a random button\n2. Press all 3 buttons \n3. Just slash the ice and take it")
         choice = get_input("")
-        if choice in ["1", "Press a random button"]:
+        if choice in ["1", "press a random button"]:
             print1("You press a random button, and nothing happens")
             print1(name+": Hm. What if...")
             print1("You press another, different button, and nothing happens")
@@ -309,7 +615,7 @@ def EastWall(player_HP):
             if game_state ["randombutton"] == True:
                 print1("What, did you just expect it to work if you did tried it again? Have you heard of textbook insanity?")
             else:game_state ["randombutton"] = True
-        elif choice in ["2", "Press all 3 buttons"]:
+        elif choice in ["2", "press all 3 buttons"]:
             if game_state ["randombutton"] == False:
                 print1("You just... wait hold on did you just press all 3 of them at the same time??")
                 print1("Ok... You press all 3 of the buttons at the same time andddd...")
@@ -324,7 +630,7 @@ def EastWall(player_HP):
                 print1("Nothing happens.")
                 print1(name+": Man, I really thought that would work...")
                 print1("...Why?")
-        elif choice in ["3", "Just slash the ice and take it"]:
+        elif choice in ["3", "just slash the ice and take it"]:
             print1("You raise up your sword and just cut down the ice, expertly avoiding the pristine cube in the middle") # Holy glaze
             if game_state ["randombutton"] == True: print1("Honestly this feels more reasonable then just pressing random buttons")
             print1("The ice shatters and the cube rolls to your feet. Good job!")
@@ -332,16 +638,20 @@ def EastWall(player_HP):
             game_state ["cube_east"] = True
             break
 
-def WestWall(player_HP):
+def WestWall():
+    global player_HP
     while True:
         player_HP -= 5
         player_bar = player_HP // 10
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" "+name+": 'What does this mural want me to do?' \n1. Start worshipping the cube\n2.  Sacrifice yourself to the cube\n3. Smash the mural and take the cube")
+        print()
+        if player_HP >= 0:
+            icedeath()
+        print1(name+": 'What does this mural want me to do?' \n1. Start worshipping the cube\n2.  Sacrifice yourself to the cube\n3. Smash the mural and take the cube")
         choice = get_input("")
-        if choice in ["1", "Worship", "Start worshipping the cube"]:
+        if choice in ["1", "worship", "start worshipping the cube"]:
             print1("You... You get down on your knees and start worshipping the cube, prayers and everything")
             print1("This is, genuienly the funniest thing I have ever seen, in my entire life")
             print1("And I'm like, immortal or something")
@@ -355,7 +665,7 @@ def WestWall(player_HP):
             print1("Anyway, theres your cube")
             game_state ["cube_west"] = True
             break
-        elif choice in ["2", "Sacrifice", "Sacrifice yourself to the cube"]:
+        elif choice in ["2", "sacrifice", "sacrifice yourself to the cube"]:
             if game_state ["attempted_sacrifice"] == False:
                 print1("As you raise your sword up to stab yourse- wait... WHAT?? my brother in christ...")
                 print1("HOW IS THAT THE MESSAGE YOU GOT FROM THE MURAL??")
@@ -366,24 +676,25 @@ def WestWall(player_HP):
                 print1("Wait what")
                 print1("Your wound heals, and the room feels a bit warmer")
                 print1("This... yeah, yeah I give up")
-                print1(name+": Oh nice! I actually survived!")
+                print1(name +": Oh nice! I actually survived!")
                 print1("Did you not expect to?? Just, just go...")
                 game_state["attempted_sacrifice"] = True
             else: 
                 print2("NO")
                 print1("Don't do that again...")
                 player_HP += 5
-        elif choice in ["3", "Smash", "Smash the mural and take the cube"]:
+        elif choice in ["3", "smash", "smash the mural and take the cube"]:
             print1("You attempt to smash the mural")
             print1("Your sword bounces off with a resounding thud")
             print1("The cube god frowns upon you")
 
-def IcePuzzle(player_HP):
+def IcePuzzle():
+    global player_HP
     print1("You feel the frigid cold ramp up as the light goes out")
     print1("Suprisingly, there's still a bit of light left, just enough to see")
-    print1(name+": This cold reaally hurts, I won't lie")
+    print1(name +": This cold reaally hurts, I won't lie")
     print2("...")
-    print1(name+": I wont get hypothermia right?")
+    print1(name +": I wont get hypothermia right?")
     print1("uhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh yeah uh huh for sure (foreshadowing.jpg)")
     clear()
     while True:
@@ -393,82 +704,88 @@ def IcePuzzle(player_HP):
         health_bar2 = '█' * player_bar #player bar
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
-        print1(" "+name+": 'What should I do now?' \n1. Check the northern wall\n2. Check the eastern wall\n3.Check the southern wall\n4.Check the western wall")
+        print()
+        if player_HP >= 0:
+            icedeath()
+        print1(" "+name +": 'What should I do now?' \n1. Check the northern wall\n2. Check the eastern wall\n3.Check the southern wall\n4.Check the western wall")
         choice = get_input("")
-        if choice in ["1", "North", "Check the northern wall"]:
+        if choice in ["1", "north", "check the northern wall"]:
             if game_state ["cube_east"] == True and game_state ["cube_west"] == True and game_state ["cube_south"] == True and game_state ["checked_door"] == True: # the == true on all of them is most likely redundant but who cares its 2am
                 print1("You place all 3 of the cubes into the slot in the door")
                 print1("Unsuprisingly, it opens up")
                 print1("The air ahead is MUCH warmer than in that icebox")
-                print1(name+": Finally... out of the cold")
+                print1(name +": Finally... out of the cold")
                 break
             else:
                 print1("You walk up to the northern wall, and find a door with 3 cubes carved out of it")
                 print1("The door has a sign that reads: -- ---- --- ----- ---")
-                print1(name+": ...What?")
+                print1(name +": ...What?")
                 print1("Oh, uh, right, you can't read...")
                 print2("...")
-                print1(name+": Very helpful")
+                print1(name +": Very helpful")
                 game_state["checked_door"] = True
-        elif choice in ["2", "East", "Check the eastern wall"]:
+        elif choice in ["2", "east", "check the eastern wall"]:
             if game_state ["cube_east"] == False:
                 print1("You slide up to the eastern wall, and find a cool looking cube encased in ice")
                 print1("Under the cube reads: --- ---- ---- ----, with 3 buttons underneath")
                 print2("...")
                 print1("You should've worked on your reading comprehension before going to jail...")
                 print1("Would you like to investigate the encased cube? \n1. Yes \n2. No")
+                choice = get_input("")
                 if choice in ["1", "Yes"]:
                     player_HP += 5
-                    EastWall(player_HP)
+                    EastWall()
                 else: 
-                    print1(name+": I'll check this out later")
+                    print1(name +": I'll check this out later")
                     print1("You return to the center of the room")
-            else: print1(name+": I don't think I need anything else from the eastern wall")
-        elif choice in ["3", "South", "Check the southern wall"]:
+            else: print1(name +": I don't think I need anything else from the eastern wall")
+        elif choice in ["3", "south", "check the southern wall"]:
             if game_state ["cube_south"] == False:
                 print1("You shimmy back over to the south wall, where you entered the room from, when you notice something shiny on the floor")
-                print1(name+": Is that a convieniently placed cube directly at the entrance so that the person who made this chamber doesn't have to think about creating a real puzzle for this?")
+                print1(name +": Is that a convieniently placed cube directly at the entrance so that the person who made this chamber doesn't have to think about creating a real puzzle for this?")
                 print2("...") # Look I was tired and I'm not really known for being creative ok :(
                 print1("That was... incredibly accurate... kind of scary actually...")
                 print1("Anyway! you've found a cube!")
                 game_state ["cube_south"] = True
-            else: print1(name+": I don't think I need anything else from the southern wall")
-        elif choice in ["4", "West", "Check the western wall"]:
+            else: print1(name +": I don't think I need anything else from the southern wall")
+        elif choice in ["4", "west", "check the western wall"]:
             if game_state ["cube_west"] == False:
                 print1("You shuffle over to the west wall, where you see a mural placed in clear view... well... however clear this dark room is")
                 print1("Would you like to investigate the mural cube? \n1. Yes \n2. No")
-                if choice in ["1", "Yes"]:
+                if choice in ["1", "yes"]:
+                    choice = get_input("")
                     print1("The mural shows a diagram of 4 people worshipping a cube. The next panel shows the cube, uh, (wait am I seeing this right)")
                     print1("Ahem, the next mural shows 3 of those people being sacrificed to the cube. Brutally. In fact, this would probably be rated M if there were visuals")
-                    print1(name+": oh that's, that's gore...")# HE SAID IT HE SAID THE THING OH MY GOD
+                    print1(name +": oh that's, that's gore...")# HE SAID IT HE SAID THE THING OH MY GOD
                     print1("The last panel has a mirror, along with the cube that was being worshipped.")
                     player_HP += 5
-                    WestWall(player_HP)
+                    WestWall()
                 else: 
-                    print1(name+": I'll check this out later")
+                    print1(name +": I'll check this out later")
                     print1("You return to the center of the room")
-            else: print1(name+": I don't think I need anything else from the western wall")
+            else: print1(name +": I don't think I need anything else from the western wall")
 
-def Ice(player_HP): # Frost
+def Ice(): # Frost 
+    global enemy_HP, enemy_miss_chance, player_miss_chance, attack_name_1, attack_name_2, attack_name_3, player_HP
     print1("Walking through the blistering winds in front of you, you find a room with a campfire and torches, somehow unextinguished")
     print1("It feels... warm")
     print1(name + ": 'Should I go in?' \n1. Go in the room \n2. Stay in the hallway")
     choice = get_input("")
-    if choice in ["1", "Go in the room", "Room"]:
+    if choice in ["1", "go in the room", "room"]:
         print1(name + ": That's a nice break...")
         print2("...")
         print1(name+": ...Wait a minute")
         print1("As you come to realize that theres no way a 'trial' would have a room for a break, the path you took quickly closes itself off to you")
         print1("Just as you turn to look at it, the campfire and torches extinguish simultaneously")
-    elif choice in ["2", "Stay in the hallway", "Stay"]:
+    elif choice in ["2", "stay in the hallway", "stay"]:
         print1(name + ": There's no way this isn't a trap")
         print2("...")
-        print1("And you're right about that. But we've got to progress somehow, right?") # Railroading isn't real you made that up
+        print1("And you're right about that. But we've got to progress somehow, right?") # Railroading isn't real you made that up | could make this a death ending if needed
         print1("You quickly notice the walls closing in around you, as the room in front of you becomes your way of escape")
         print1(name + ": ...I expected as much")
         print1("The pathway you took closes, and you notice the torches and campfire extinguish simultaneously")
     print1(name+": Damn it...")
-    IcePuzzle(player_HP)
+    IcePuzzle()
     
     print1("Oh, it's still really cold though")
     print2("...")
@@ -477,19 +794,74 @@ def Ice(player_HP): # Frost
     while True:
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
-        if choice in ["1", "First" "The first path"]:
-            clear()
-            pass
-        elif choice in ["2", "Second" "The second path"]:
-            clear()
-            pass
-        elif choice in ["3", "Explore" "Maybe I should explore a bit more"]:
-            clear()
-            pass
+        if choice in ["1", "first" "the first path"]:
+            print1("You walk through what seems to be an exit, only to find yourself in an arena made of pure ice")
+            print1("In the middle, you see what seems to be a frozen 'totem pole'")
+            print1("Its eyes light up in response to your presence")
+            print1(name+": Uh, hi?")
+            print1("It looks pretty hostile I won't lie")
+            print1("Also, you notice the floor is VERY slippery beneath you")
+            print1("Ok great good luck dont die I belieevee in you")
+            print1(name+": WHAT")
+            enemy_HP = 31 # Stats for the Ice totem boss
+            enemy_miss_chance = 5
+            player_miss_chance = 2
+            attack_name_1 = "Snowball"
+            attack_name_2 = "Icicle Toss"
+            attack_name_3 = "Spear of Ice"
+            fighting()
+            if player_HP >= 0:
+                pass #death sequence
+            print1("The totem pole shatters upon your strike")
+            print1("You notice the door on the other side of the room open up")
+            print1(name+"Am I finally free?")
+            print1("You walk through the open door and see...")
+            print2("...")
+            print1(name+": Is that... light?")
+            print1("The bright light of the outside shines on your face, as you walk back into the arena, triumphantly")
+            print1("The Emperor sits there in stunned silence, watching you walk out alive")
+            print1("Emperor: Well, uh, no one has ever survived these trials. (uh what do we do now)")
+            print2("...")
+            print1("Emperor: Ok! Due to lack of procedure, you're uh, free to go")
+            print1(name+": Oh for realsies?")
+            print1("Emperor: Yeah! yeah just go. We uh, don't want you here anymore")
+            print1(name+": Ok cool byeee")
+            print1("As you leave the colloseum, tired and ready to go home (wherever that is), you get stopped on the road by a mysterious figure")
+            print1("???: Yo! Hand over everything you got")
+            print1(name+": Oh, uh, I don't have any mone-")
+            print1("Before you can finish your sentence, you get viciosly stabbed through the gut, as the robber makes off with your sword")
+            print4(name+": Ain't no way that just")
+            print2("...")
+            print1("You pass out from blood loss")
+            print3("ENDING 4")
+            print1(" | 'You managed to kill a magic wielding ice totem, and you died to a robber?'")
 
+        elif choice in ["2", "second" "the second path"]:
+            clear()
+            pass
+        elif choice in ["3", "explore" "maybe I should explore a bit more"]:
+            print1("You search around the hallway, but aside from the seemingly random sets of icicles, nothing stands out")
+            print1(name+": Nothing useful...")
+
+def icedeath():
+    global player_HP
+    print1("Your body, no longer able to withstand the cold, shrivels up and collapses")
+    print1("Man, I really didn't think those puzzles were that hard, I mean its like 5 hp every loop")
+    print1("That means it takes 20 seperate choices to manage to die here")
+    print1("Honestly, this hypothermia mechanic is just for making the boss fight harder, you weren't even supposed to die here")
+    print3("ENDING 1")
+    print1(" | 'How did you manage this one?'")
+    print1("Well, uh, I guess we can just come back to when you entered")
+    game_state["cube_east"] = False
+    game_state["cube_south"] = False
+    game_state["cube_west"] = False
+    game_state["randombutton"] = False
+    game_state["checked_door"] = False
+    game_state["attempted_sacrifice"] = False
+    player_HP = 100
+    IcePuzzle()
 
 #opening sequenceeee
-player_HP = 100
 print1 ("You start hearing cheers and yells coming from all around you")
 print1 ("Press enter to wake up")
 input()
@@ -504,6 +876,7 @@ print1("You force yourself up from the sand reluctantly")
 print1("--: 'Wait, who even am I?'") # This one is not a subsitute
 name = input("Who are you?: ")
 print1(name +": Oh, right, I'm " + name) #-his name is canonically dave. like, all lowercase.
+fighting()
 print1("You look around to find yourself in a sort of, arena?")
 print1("Before you can think of your surroudings, you hear the ringing of a bell, and the sounds of cheers get quieter...") # queue mizu5
 print1("You look up to see the Emperor sitting on his throne, all eyes on him") #yall i cant write for shit
@@ -520,7 +893,7 @@ print1("Emperor: ...With that out of the way, would you like to tell us what you
 while True: # Crime choice sequence
     print1 (name +": 'What crime did I commit again?' \n1. Murder \n2. Theft \n3. Attempts to overthrow the current political system through multistage conspiracy and bribery of government officials \n4. I'm not a criminal!") 
     choice = get_input("")
-    if choice in ["1", "Murder"]:
+    if choice in ["1", "murder"]:
         if game_state ["murder"] == False:
             print1(name + ": I... killed a man")
             print1("Emperor: Well! There you have it! They killed someone in cold blood!")
@@ -529,7 +902,7 @@ while True: # Crime choice sequence
             game_state["murder"] == True
             break
 
-    elif choice in ["2", "Theft"]:
+    elif choice in ["2", "theft"]:
         if game_state ["theft"] == False:
             print1(name + ": I stole some bread so my family wouldn't starv-")
             print1("Emperor: I see! So you stole food from a poor vendor trying to make a living... How horrible!")
@@ -538,7 +911,7 @@ while True: # Crime choice sequence
             game_state["theft"] == True
             break
 
-    elif choice in ["3", "Attempts to overthrow the current political system through multistage conspiracy and bribery of government officials"]:
+    elif choice in ["3", "attempts to overthrow the current political system through multistage conspiracy and bribery of government officials"]:
         if game_state ["funny"] == False: #yeah im not checking the gamestate system to see if it works we'll suffer later XD
             print1(name +": Oh, uh, I tried to overthrow the current political system through multistag-... (wait what the hell no I didn't, who would even think of doing that??)")
             print1("Emperor: ...")
@@ -549,7 +922,7 @@ while True: # Crime choice sequence
         else: 
             print1(name +": 'No I didn't...'")
 
-    elif choice in ["4", "I'm not a criminal!"]:
+    elif choice in ["4", "i'm not a criminal!"]:
         if game_state ["pleading 1"] == False:
             clear()
             print1(name  + ": I didn't do anything!")
@@ -562,10 +935,10 @@ while True: # Crime choice sequence
             game_state["pleading 2"] = True
             break
 # Murder = Damage, Theft = Evasion, Pleading(2) = Charisma
-# roll variable out of 4
+# roll variable out of 4 or something idk
 damage = 0
 if game_state ["murder"] == True:
-    damage += 21
+    damage += 2
 evasion = 1
 if game_state ["theft"] == True:
     evasion += 1
@@ -588,7 +961,7 @@ print1("Emperor: Although you don't really have any rights, I'll give you the li
 while True: # Door choice sequence
     print1("Emperor: Which door do you want to choose? \n1. Trial of Fire \n2. Trial of Distain \n3. Trial of Ice")
     choice = get_input("")
-    if choice in ["1", "Fire", "Trial of Fire"]:
+    if choice in ["1", "fire", "trial of fire"]:
         clear()
         print1(name + ": I choose... the first door")
         print1("Emperor: Oh come on, say it with enthusiasm! This is a joyous occasion!")
@@ -603,8 +976,8 @@ while True: # Door choice sequence
         print1(name + ": Oh. My bad")
         print2("...")
         print1(name + ": Wait, who am I talking to?")
-        Fire(player_HP)
-    elif choice in ["2", "Distain", "Trial of Distain"]:
+        Fire()
+    elif choice in ["2", "distain", "trial of distain"]:
         clear()
         print1(name + ": I choose... the second door")
         print1("Emperor: Oh... the Trial of Distain, huh...")
@@ -617,8 +990,8 @@ while True: # Door choice sequence
         print1(name + ": Oh. My bad")
         print2("...")
         print1(name + ": Wait, who am I talking to?")
-        Distain(player_HP)
-    elif choice in ["3", "Ice", "Trial of Ice"]:
+        Distain()
+    elif choice in ["3", "ice", "trial of ice"]:
         clear()
         print1(name + ": I choose... the third door")
         print1("Emperor: Say it's name.")
@@ -630,4 +1003,4 @@ while True: # Door choice sequence
         print1(name + ": 'and also freezing':/")
         print1("And then the door slowly slides into place")
         print1(name + ": Oh, that's... that's nice")
-        Ice(player_HP)
+        Ice()

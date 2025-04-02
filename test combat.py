@@ -106,7 +106,7 @@ while enemy_HP > 0:
     health_bar2 = '█' * player_bar
     empty_space2 = ' ' * (10 - player_bar)
     counter += 1
-    print(f"[Magical Leaf: {attack_1}/3 Scratch: {attack_2}/4 Heal: N/A]")
+    print(f"[Magical Leaf: {attack_1}/3 | Scratch: {attack_2}/4 | Heal: N/A]")
     print(f"\rEnemies HP:[{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
     print("")
     print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
@@ -117,7 +117,7 @@ while enemy_HP > 0:
 
     print1 ("what would you like to do: \n1. Magical Leaf \n2. Scratch \n3. heal"),
     choice = get_input("")
-    if choice in ["1" , " Magical Leaf"]:
+    if choice in ["1" , " magical Leaf"]:
         damage_rate = random.randint(15 , 30) + damage
         clear()
         player_attack = random.randint(1 , 10)
@@ -133,11 +133,8 @@ while enemy_HP > 0:
             enemy_HP = max(0, enemy_HP - damage_rate)
             enemy_attack_type()
             print1(f"You deal {damage_rate} damage!")
-            
 
-
-
-    elif choice in [f"2" , "Scratch"]:
+    elif choice in [f"2" , "scratch"]:
         damage_rate = random.randint(10, 20) + damage
         clear()
         player_attack = random.randint(1 , 10)
