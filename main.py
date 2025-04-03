@@ -74,6 +74,9 @@ game_state = { #our game updates
     "checked_door":False,
     "bridge_investigation":False,
     "room_investigation":False,
+    "infernal_knight":False,
+    "totem":False,
+    "lich":False,
 
 }
 
@@ -99,9 +102,10 @@ def fighting():
     attack_2 = 0
     heal = 0
     shuffle_counter = 0
+    freeze = 0
 
     def enemy_attack_type():
-        global player_HP, enemy_HP, evasion, enemy_miss_chance
+        global player_HP, enemy_HP, evasion, enemy_miss_chance, freeze
         enemy_attack = random.randint(1 , enemy_miss_chance)
         if enemy_HP > 0:
             if 0 <= enemy_attack <= 2:
@@ -129,11 +133,13 @@ def fighting():
                     return
 
                 elif enemy_attack_type == 10:
-                    enemy_dmg = random.randint(25, 30)
+                    if game_state["infernal_knight"] == False:enemy_dmg = random.randint(25, 30)
+                    else:enemy_dmg = random.randint(1, 100) # GAMBLE MOVE BABYY
                     print1 (f"The Enemy used {attack_name_3}")
                     player_HP = max(0, player_HP - enemy_dmg)
                     clear()
                     print1(f"The enemy strikes you for {enemy_dmg} damage!")
+                    freeze += 1
                     return
 
     while enemy_HP > 0:
@@ -156,8 +162,10 @@ def fighting():
             break
         
         if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal \n4. Slide forwards")
+        elif (game_state["lich"] == True): print1("You're frozen by the lich!")
         else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal"),
-        choice = get_input("")
+        if freeze == 0 or game_state["lich"] == False: choice = get_input("")
+        else: freeze -=1
         if choice in ["1" , " slash"]:
             damage_rate = random.randint(15 , 30) + damage
             clear()
@@ -465,7 +473,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             else:
                 print1("As your last strike reaches the dragon, it flails around a bit, before collapsing")
                 print1("It seems to be dead, or maybe unconscious. Hopefully dead")
-                print1(name+"Alright... what's next...")
+                print1(name+": Alright... what's next...")
                 print1("Actually, the door behind the dragon opens up, and through it you see...")
                 print1(name+": Light?")
                 end_sequence()
@@ -476,8 +484,44 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
                 print1(" | 'cooked lil bro'")
                 exit
         elif choice in ["2", "second" "the second path"]:
-            clear()
-            pass
+            game_state["infernal_knight"] = True
+            print1("Walking through the second path, you find yourself facing a suit of armor")
+            print1("It's dressed up in flame decals, and some of them are moving")
+            print1("Oh, wait, no it's just on fire")
+            print1(name+": Who would leave a suit of armor here? And how has it not melted?")
+            print1("As if in response to your question, its eyes light up, and it points its sword at you")
+            print1(name+": are you genuienly kidding me")
+            enemy_HP = 100 # Stats for the Infernal Knight boss
+            enemy_miss_chance = 10
+            player_miss_chance = 10
+            attack_name_1 = "Flaming Slash"
+            attack_name_2 = "Explosive Blast"
+            attack_name_3 = "Set your heart ablaze" #This does 1-100 damage randomly
+            fighting()
+            if player_HP >= 0:
+                game_state["infernal_knight"] = False
+                print1("The knight cleaves off one of your limbs")
+                print1("Luckily, the wound immediately cauterizes")
+                print1("Unluckily, the knight beheads you immediately afterwards")
+                print1("At least it was a quick death...")
+                print2("...")
+                print3("ENDING 8")
+                print1(" | 'Was that a demon slayer reference?'") # nooooooo... (maybee)
+            else:
+                print1("You manage to hit one of the knights joints, as the armor starts to fall apart")
+                print1("The flames die down, and the room feels cooler")
+                print1(name+": 'Am I finally done?'")
+                print1("The door behind the knight opens to your thought, and through it you see...")
+                print1(name+": Light?")
+                end_sequence()
+                print1("You leave the colloseum, under th extreme heat, and incredibly fatigue")
+                print1(name+": Man, its... really.... hot outside...")
+                print1("Before you can finish your sentence, you collapse of heatstroke")
+                print1("Maybe you should've gotten an ice pack")
+                print2("...")
+                print3("ENDING 9")
+                print1(" | 'You're literally on fire for like 30 minutes of the game how does the sun get you'")
+                exit
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
             print1("You search around the hallway, but aside from the molten rock embedded in the wall, nothing stands out")
             print1(name+": Nothing useful...")
@@ -831,6 +875,7 @@ def Ice(): # Frost
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "first" "the first path"]:
+            game_state["totem"] = True
             print1("You walk through what seems to be an exit, only to find yourself in an arena made of pure ice")
             print1("In the middle, you see what seems to be a frozen 'totem pole', about 10 meters from you")
             print1("Its eyes light up in response to your presence")
@@ -847,6 +892,7 @@ def Ice(): # Frost
             attack_name_3 = "Spear of Ice"
             fighting()
             if player_HP >= 0:
+                game_state["totem"] = False
                 print1("As you attempt to keep moving forward, the ice in your body causes you to freeze")
                 print1("No longer able to move, the totem hits every strike")
                 print1("Your body shatters")
@@ -874,8 +920,17 @@ def Ice(): # Frost
                 exit
 
         elif choice in ["2", "second" "the second path"]:
-            clear()
-            pass
+            game_state["lich"] = True
+            enemy_HP = 100 # Stats for the Ice Lich
+            enemy_miss_chance = 10
+            player_miss_chance = 10
+            attack_name_1 = "Frostbite"
+            attack_name_2 = "Stalactite"
+            attack_name_3 = "Pillar of Ice"
+            fighting()
+            if player_HP >= 0:
+                game_state["lich"] = False
+                pass # Death sequence
         elif choice in ["3", "explore" "maybe I should explore a bit more"]:
             print1("You search around the hallway, but aside from the seemingly random sets of icicles, nothing stands out")
             print1(name+": Nothing useful...")
