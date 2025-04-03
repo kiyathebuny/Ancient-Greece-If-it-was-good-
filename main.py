@@ -452,12 +452,16 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             attack_name_3 = "Flamethrower"
             fighting()
             if player_HP >= 0:
-                print1("The flames from the dragon scorch your body")
+                print1("The heat from the dragon scorches your body")
                 print1("You're engulfed in flames, and all the scars on your body melt")
                 print1("You feel your eyes liquify, unable to scream")
                 print2("...")
                 print3("ENDING 7")
                 print(" | 'The human eye is a delicate structure, and while the term 'melt' isn't technically accurate, extreme heat can cause significant damage. The proteins in the eye, particularly in the cornea and lens, begin to denature at temperatures above 60°C (140°F). Prolonged exposure to temperatures around 100°C (212°F), such as boiling water, could lead to severe damage to the eye's tissues.'")
+                print()
+                print("However, it's important to note that actual melting of the eyeball tissues is unlikely to occur in a literal sense, as the eye is composed of various tissues rather than a single material that would melt. Instead, high temperatures would cause burning, charring, and irreversible damage. ")
+                print() # This some LCE E.G.O Lantern Yi Sang stuff I can't lie
+                print1("Always exercise caution to protect your eyes from extreme conditions.")
             else:
                 print1("As your last strike reaches the dragon, it flails around a bit, before collapsing")
                 print1("It seems to be dead, or maybe unconscious. Hopefully dead")
