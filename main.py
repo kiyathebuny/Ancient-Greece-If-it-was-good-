@@ -426,6 +426,7 @@ def FirePuzzle3():
             
 def Fire(): # Flame <--- this is the equivalent of our folder of code ig basically when we called to it it'll basically open up this entire folder and run it line by line
     #ok sick so now we gotta add chamber specific traps - 3x3 tile, the order is 2, 3, 3
+    global enemy_HP, enemy_miss_chance, player_miss_chance, attack_name_1, attack_name_2, attack_name_3, player_HP
     print1("Walking through the fiery hall in front of you leads to a room with a square, checkered floor")
     print1("You're greeted by a 3x3 set of tiles, and across from it is, well, more hallway...")
     print1(name + ": Well, I guess it's a trial for a reason")
@@ -437,8 +438,39 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "first" "the first path"]:
-            clear()
-            pass
+            print1("You walk through the first path, and find yourself facing the back of an enormous creature")
+            print1("As you look closer, you realize that it resembles a mythical creature, the 'Dragon'")
+            print1("Before you can do anything else, it turns around and looks down at you")
+            print1(name+": Uh, hi?")
+            print1("Yeah it doesn't speak human, or, at least it doesn't respond to what you said")
+            print1("You prepare for combat...")
+            enemy_HP = 100 # Stats for the Dragon boss
+            enemy_miss_chance = 10
+            player_miss_chance = 10
+            attack_name_1 = "Dragon Claw"
+            attack_name_2 = "Dragon Breath"
+            attack_name_3 = "Flamethrower"
+            fighting()
+            if player_HP >= 0:
+                print1("The flames from the dragon scorch your body")
+                print1("You're engulfed in flames, and all the scars on your body melt")
+                print1("You feel your eyes liquify, unable to scream")
+                print2("...")
+                print3("ENDING 7")
+                print(" | 'The human eye is a delicate structure, and while the term 'melt' isn't technically accurate, extreme heat can cause significant damage. The proteins in the eye, particularly in the cornea and lens, begin to denature at temperatures above 60°C (140°F). Prolonged exposure to temperatures around 100°C (212°F), such as boiling water, could lead to severe damage to the eye's tissues.'")
+            else:
+                print1("As your last strike reaches the dragon, it flails around a bit, before collapsing")
+                print1("It seems to be dead, or maybe unconscious. Hopefully dead")
+                print1(name+"Alright... what's next...")
+                print1("Actually, the door behind the dragon opens up, and through it you see...")
+                print1(name+": Light?")
+                end_sequence()
+                print1("As you leave the colloseum with joy in your eyes, you fail to notice the horse carriage behind you")
+                print1("It turns out, the horses went out of control. Directly on the road behind you")
+                print1("Before you have time to react, you get trampled to death by these horses, before they are promptly put down")
+                print3("ENDING 5")
+                print1(" | 'cooked lil bro'")
+                exit
         elif choice in ["2", "second" "the second path"]:
             clear()
             pass
@@ -796,7 +828,7 @@ def Ice(): # Frost
         choice = get_input("")
         if choice in ["1", "first" "the first path"]:
             print1("You walk through what seems to be an exit, only to find yourself in an arena made of pure ice")
-            print1("In the middle, you see what seems to be a frozen 'totem pole'")
+            print1("In the middle, you see what seems to be a frozen 'totem pole', about 10 meters from you")
             print1("Its eyes light up in response to your presence")
             print1(name+": Uh, hi?")
             print1("It looks pretty hostile I won't lie")
@@ -811,30 +843,31 @@ def Ice(): # Frost
             attack_name_3 = "Spear of Ice"
             fighting()
             if player_HP >= 0:
-                pass #death sequence
-            print1("The totem pole shatters upon your strike")
-            print1("You notice the door on the other side of the room open up")
-            print1(name+"Am I finally free?")
-            print1("You walk through the open door and see...")
-            print2("...")
-            print1(name+": Is that... light?")
-            print1("The bright light of the outside shines on your face, as you walk back into the arena, triumphantly")
-            print1("The Emperor sits there in stunned silence, watching you walk out alive")
-            print1("Emperor: Well, uh, no one has ever survived these trials. (uh what do we do now)")
-            print2("...")
-            print1("Emperor: Ok! Due to lack of procedure, you're uh, free to go")
-            print1(name+": Oh for realsies?")
-            print1("Emperor: Yeah! yeah just go. We uh, don't want you here anymore")
-            print1(name+": Ok cool byeee")
-            print1("As you leave the colloseum, tired and ready to go home (wherever that is), you get stopped on the road by a mysterious figure")
-            print1("???: Yo! Hand over everything you got")
-            print1(name+": Oh, uh, I don't have any mone-")
-            print1("Before you can finish your sentence, you get viciosly stabbed through the gut, as the robber makes off with your sword")
-            print4(name+": Ain't no way that just")
-            print2("...")
-            print1("You pass out from blood loss")
-            print3("ENDING 4")
-            print1(" | 'You managed to kill a magic wielding ice totem, and you died to a robber?'")
+                print1("As you attempt to keep moving forward, the ice in your body causes you to freeze")
+                print1("No longer able to move, the totem hits every strike")
+                print1("Your body shatters")
+                print2("...")
+                print3("ENDING 6")
+                print1(" | 'Death by being Canadian'")
+            else:
+                print1("The totem pole shatters upon your strike")
+                print1("You notice the door on the other side of the room open up")
+                print1(name+"Am I finally free?")
+                print1("You walk through the open door and see...")
+                print2("...")
+                print1(name+": Is that... light?")
+                print1("The bright light of the outside shines on your face, as you walk back into the arena, triumphantly")
+                end_sequence()
+                print1("As you leave the colloseum, tired and ready to go home (wherever that is), you get stopped on the road by a mysterious figure")
+                print1("???: Yo! Hand over everything you got")
+                print1(name+": Oh, uh, I don't have any mone-")
+                print1("Before you can finish your sentence, you get viciosly stabbed through the gut, as the robber makes off with your sword")
+                print4(name+": Ain't no way that just")
+                print2("...")
+                print1("You pass out from blood loss")
+                print3("ENDING 4")
+                print1(" | 'You managed to kill a magic wielding ice totem, and you died to a robber?'")
+                exit
 
         elif choice in ["2", "second" "the second path"]:
             clear()
@@ -860,6 +893,15 @@ def icedeath():
     game_state["attempted_sacrifice"] = False
     player_HP = 100
     IcePuzzle()
+
+def end_sequence():
+    print1("The Emperor sits there in stunned silence, watching you walk out alive")
+    print1("Emperor: Well, uh, no one has ever survived these trials. (uh what do we do now)")
+    print2("...")
+    print1("Emperor: Ok! Due to lack of procedure, you're uh, free to go")
+    print1(name+": Oh for realsies?")
+    print1("Emperor: Yeah! yeah just go. We uh, don't want you here anymore")
+    print1(name+": Ok cool byeee")
 
 #opening sequenceeee
 print1 ("You start hearing cheers and yells coming from all around you")
