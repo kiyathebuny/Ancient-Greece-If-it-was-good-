@@ -16,7 +16,7 @@ def print1(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush() #this two line input and prints each character one by one
-        time.sleep(0.045) #our typing delay
+        time.sleep(0.005) #our typing delay
     print()#for spacing
 
 def print2(str):
@@ -364,6 +364,8 @@ def FirePuzzle2():
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print()
+        if player_HP <= 0:
+            firedeath()
         print1(name + ": 'How should I go about this?' \n1. Step on the first tile\n2. Step on the second tile\n3. Step on the third tile\n4. Observe your surroundings")
         choice = get_input("")
         
@@ -434,6 +436,8 @@ def FirePuzzle3():
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print()
+        if player_HP <= 0:
+            firedeath()
         print1(name + ": 'How should I go about this?' \n1. Step on the second tile\n2. Step on the third tile\n3. Observe your surroundings")
         choice = get_input("")
         
@@ -502,7 +506,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             attack_name_2 = "Dragon Breath"
             attack_name_3 = "Flamethrower"
             fighting()
-            if player_HP >= 0:
+            if player_HP <= 0:
                 print1("The heat from the dragon scorches your body")
                 print1("You're engulfed in flames, and all the scars on your body melt")
                 print1("You feel your eyes liquify, unable to scream")
@@ -541,7 +545,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             attack_name_2 = "Explosive Blast"
             attack_name_3 = "Set your heart ablaze" #This does 1-100 damage randomly
             fighting()
-            if player_HP >= 0:
+            if player_HP <= 0:
                 game_state["infernal_knight"] = False
                 print1("The knight cleaves off one of your limbs")
                 print1("Luckily, the wound immediately cauterizes")
