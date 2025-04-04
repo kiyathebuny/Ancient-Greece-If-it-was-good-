@@ -279,6 +279,7 @@ def fighting():
             print(f"\rEnemies HP: [{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
             print("")
             print(f"\rPlayers HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
+            print("")
             break
 
 # have the door closing text and clear happen before loading the chamber please and thank you
@@ -620,9 +621,9 @@ def DistainBridge():
                     print1("One of the statues manages to catch you, and launches a projectile at your feet, destroying the bridge")
                     distaindeath()
             elif choice in ["3", "slow", "slow and cautious"]: # This is guarenteed to avoid getting stuck by being unlucky
-                print4("You cross the section of the bridge")
+                print4("You cross the section of the bridge ")
                 print3("INCREDIBLY")
-                print1("slowly")
+                print1(" slowly")
                 distance_counter += 1
             print1("The statues open their eyes, and you freeze in time, holding your breath, waiting for their eyes to close")
             print2("...")
