@@ -77,6 +77,7 @@ game_state = { #our game updates
     "infernal_knight":False,
     "totem":False,
     "lich":False,
+    "ghost":False,
 
 }
 
@@ -103,12 +104,15 @@ def fighting():
     heal = 0
     shuffle_counter = 0
     freeze = 0
+    talk = 0
 
     def enemy_attack_type():
         global player_HP, enemy_HP, evasion, enemy_miss_chance, freeze
         enemy_attack = random.randint(1 , enemy_miss_chance)
         if enemy_HP > 0:
-            if 0 <= enemy_attack <= 2:
+            if game_state["ghost"] == True:
+                print1("The ghost quietly weeps in the corner")
+            elif 0 <= enemy_attack <= 2:
                 print1("The enemies attack bounced off your shield!")
 
             elif evasion >= 2 and 0 <= enemy_attack <= 3:
@@ -152,7 +156,7 @@ def fighting():
         health_bar2 = '█' * player_bar
         empty_space2 = ' ' * (10 - player_bar)
         counter += 1
-        print(f"[Slash: {attack_1}/3 | Stab: {attack_2}/4 | Heal: N/A]")
+        print(f"[Slash: {attack_1}/3 | Stab: {attack_2}/4 | Talk: N/A]")
         print(f"\rEnemies HP:[{health_bar1}{empty_space1}] {enemy_HP}", end='', flush=True)
         print("")
         print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
@@ -161,9 +165,9 @@ def fighting():
         if enemy_HP <= 0:
             break
         
-        if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal \n4. Slide forwards")
+        if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk \n4. Slide forwards")
         elif (game_state["lich"] == True): print1("You're frozen by the lich!")
-        else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Heal"),
+        else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk"),
         if freeze == 0 or game_state["lich"] == False: choice = get_input("")
         else: freeze -=1
         if choice in ["1" , " slash"]:
@@ -203,13 +207,52 @@ def fighting():
                 print1(f"You deal {damage_rate} damage!")
 
 
-        elif choice in ["3" , "heal"]:
-            heal = random.randint(15, 25)
-            player_HP = min(max_HP, player_HP + heal)
-            clear()
-            enemy_attack_type()
-            print1(f"You heal {heal} HP!")
-            counter -= 1
+        elif choice in ["3" , "talk"]:
+            if game_state["ghost"] == False:
+                heal = random.randint(15, 25)
+                player_HP = min(max_HP, player_HP + heal)
+                clear()
+                enemy_attack_type()
+                print1("You attempt to talk to the entity")
+                if game_state["lich"]: print1("It responds with an unintelligble shriek. Although you can't tell what it said, you can assume they were some kind words")
+                if game_state["infernal_knight"]: print1("It points its sword at you as its flames burn brigher. You feel fired up!")
+                else:print1("Although it doesn't respond, you feel invigorated") # I can spell i swear T-T
+                print1(f"You heal {heal} HP!")
+                counter -= 1
+            else:
+                print1("You attempt to talk to the ghost")
+                if talk == 0:
+                    print1(name+"Hey, uh, is everything alright")
+                    print1("??????: Everyone keeps forgetting who I am...")
+                    print2(name+": Oh, thats rough buddy")
+                    talk += 1
+                elif talk == 1:
+                    print1("??????: Why does no one want to play to me...")
+                    print4("They're all")
+                    print3("...")
+                    print1("afraid")
+                    print2(name+": But why?")
+                    talk += 1
+                elif talk == 2:
+                    print1("??????: My sister is always busy, she never has time for me")
+                    print1(name+": Maybe she's earning money for your family?")
+                    print1("??????: ...")
+                    talk += 1
+                elif talk == 3:
+                    print("??????: ...")
+                    print1(name+": Do you... want to talk about it?")
+                    print("??????: ...Really?")
+                    print1(name+": Uh, yeah!")
+                    print("??????: Aren't you... afraid of me?")
+                    print1(name+": No? Why would I be?")
+                    talk += 1
+                elif talk == 4:
+                    print("??????: ...Thank you..")
+                    print(name+": You're... welcome?")
+                    print("??????: It was a pleasure to meet you") # Try not to incorperate koishi reference challenge impossible
+                    print(name+": Oh, um, thanks")
+                    break
+                    
 
         elif choice in ["4" , "shuffle"]:
             if game_state["cube_south"] == True:
@@ -634,6 +677,7 @@ def DistainPuzzle():
 
 
 def Distain(): # Sewer
+    global enemy_HP, enemy_miss_chance, player_miss_chance, attack_name_1, attack_name_2, attack_name_3, player_HP
     print1("Walking through the smokey hallway in front of you leads you to a rickety looking bridge")
     print1("The bridge seems to be made of old planks, tethered with flayed ropes, and held together by a highschool students hopes and dreams") #just like pygame
     print1("wait a minute...")
@@ -648,11 +692,55 @@ def Distain(): # Sewer
         print1 (name +": 'Which path should I go down?' \n1. The first path\n2. The second path\n3. Maybe I should explore a bit more..")
         choice = get_input("")
         if choice in ["1", "first" "the first path"]:
-            clear()
-            pass
+            print1("You head down the first path, and enter a chamber that looks, normal?")
+            print1("By all means, it defintely looks like you're in a cave, but also similar to a house")
+            print1(name+": What the..")
+            print1("In one of the corners, you see a ghastly figure in the fetal position")
+            print1(name+": Uh, hey, you ok bro?")
+            print1("It pretends not to hear you")
+            game_state["ghost"] = True
+            enemy_HP = 1 # Stats for the depressed ghost boss
+            enemy_miss_chance = 2
+            player_miss_chance = 2
+            attack_name_1 = "Quiet Weeping"
+            attack_name_2 = "Insomniac Stare"
+            attack_name_3 = "Life Contemplation" # These names dont actually do anything since she shouldn't be able to attack
+            fighting()
+            print1("You see the ghost fade away, leaving behind a key")
+            print1("You pick up the key and unlock the back door of the house-cave thing (even I have no idea how this room looks)")
+            print1("The door opens to reveal the daylight you've missed so badly")
+            end_sequence()
+            print1("You leave the colloseum in a great mood, and nothing can bring you down")
+            print1("Except for the massive explosion you just heard")
+            print1("Your head darts over to the sound of the explosion, and you notice an active volcano, yknow, being active")
+            print1("Oh and you're very much in the danger radius")
+            print1("Even after you run as fast as you can, the debris and lava manage to catch up")
+            print1("You're caught and burned alive, quite painfully, but at least it was faster than being engulfed in fire")
+            print3("ENDING 11")
+            print1(" | 'Maybe you can hang out with that ghost in the afterlife, if they're even dead (they aren't)'")
+            exit
         elif choice in ["2", "second" "the second path"]:
-            clear()
-            pass
+            print1("You slide down the second path, and find yourself in an...")
+            print1("Unloaded room?")
+            print1("wait hold on, theres nothing here, like literally nothing")
+            print1("(hold on lemme fix this real quick)")
+            print1("OK! well, uh, you find yourself in an empty void, with a door. It's... just a lone door")
+            print1("It seems to be unlocked, but theres a key anyway")
+            print1(name+": Can I just... leave?")
+            print1("You walk through the unlocked door, leaving the key behind")
+            end_sequence()
+            print1("You leave the colloseum in shambles, but its fine because you're finally freeee!")
+            print1(name+": Oh yeah I'm finally free!")
+            print1("Yeah, yeah you are")
+            print1("Man I feel reaallyy bad for whats about to happen")
+            print1(name+": I really hope nothing bad happens in the next 5.13 seconds")
+            print1("In 5.14 seconds, your foot gets caught on a pebble in the road, and you faceplant right into the pavement")
+            print1("The force was enough to break your neck")
+            print1("Immediately")
+            print3("ENDING 12")
+            print1(" | 'I genueinly ran out of ideas. Its been like 5 straight days of writing code and creating concepts, Mr. Nagra please let me out of the basement'")
+
+            fighting()
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
             print1("You search around the hallway, but aside from the stones decorating the floor, nothing stands out")
             print1(name+": Nothing useful...")
@@ -930,7 +1018,31 @@ def Ice(): # Frost
             fighting()
             if player_HP >= 0:
                 game_state["lich"] = False
-                pass # Death sequence
+                print1("The lich manages to freeze one of your legs")
+                print1(name+": 'Oh, I can't move, damn'")
+                print1("Wow, real enthusiatic for someone about to die")
+                print1("You notice as frost slowly creeps up from the bottom, eventually encasing your whole body")
+                print1("And then you feel, well, actually you don't")
+                print3("ENDING 10")
+                print1(" | 'School nurse if she could legally prescribe more ice'")
+            else:
+                print1("The lich screeches as your sword pierces its skull")
+                print1("You notice the door on the other side of the room open up")
+                print1(name+"That... really sucked")
+                print2("...")
+                print1(name+": 'Does that lead outside?'")
+                print1("You walk through the newly opened door")
+                end_sequence()
+                print1("You leave the arena, head empty, no thoughts")
+                print1("As you start to realize you have nowhere to go, you hear a creak")
+                print1(name+": What was that?")
+                print1("You notice the structural integrity of the nearby buildings fail")
+                print4(name+": There's no way")
+                print2("...")
+                print1("Before you can make it out in time, a sinkhole opens beneath you, and you're crushed by the debris")
+                print3("ENDING 10")
+                print1(" | 'Mmmm ancient rome smoothie mmm delicious'")
+                exit
         elif choice in ["3", "explore" "maybe I should explore a bit more"]:
             print1("You search around the hallway, but aside from the seemingly random sets of icicles, nothing stands out")
             print1(name+": Nothing useful...")
@@ -959,7 +1071,7 @@ def end_sequence():
     print2("...")
     print1("Emperor: Ok! Due to lack of procedure, you're uh, free to go")
     print1(name+": Oh for realsies?")
-    print1("Emperor: Yeah! yeah just go. We uh, don't want you here anymore")
+    print1("Emperor: Yeah! yeah, just go. We uh, don't want you here anymore")
     print1(name+": Ok cool byeee")
 
 #opening sequenceeee
