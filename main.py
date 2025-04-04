@@ -874,7 +874,7 @@ def IcePuzzle():
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print()
-        if player_HP >= 0:
+        if player_HP <= 0:
             icedeath()
         print1(" "+name +": 'What should I do now?' \n1. Check the northern wall\n2. Check the eastern wall\n3.Check the southern wall\n4.Check the western wall")
         choice = get_input("")
