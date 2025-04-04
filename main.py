@@ -162,9 +162,10 @@ def fighting():
         print(f"\rPlayers HP:[{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print("")
 
-        if enemy_HP <= 0:
+        if enemy_HP <= 0 or player_HP <= 0:
             break
         
+
         if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk \n4. Slide forwards")
         elif (game_state["lich"] == True): print1("You're frozen by the lich!")
         else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk"),
@@ -1013,6 +1014,7 @@ def Ice(): # Frost
                 exit
 
         elif choice in ["2", "second" "the second path"]:
+            
             game_state["lich"] = True
             enemy_HP = 100 # Stats for the Ice Lich
             enemy_miss_chance = 10
