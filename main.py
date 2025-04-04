@@ -529,7 +529,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
                 print1("Before you have time to react, you get trampled to death by these horses, before they are promptly put down")
                 print3("ENDING 5")
                 print1(" | 'cooked lil bro'")
-                sys.exit
+                sys.exit()
         elif choice in ["2", "second" "the second path"]:
             game_state["infernal_knight"] = True
             print1("Walking through the second path, you find yourself facing a suit of armor")
@@ -570,7 +570,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
                 print2("...")
                 print3("ENDING 9")
                 print1(" | 'You're literally on fire for like 30 minutes of the game how does the sun get you'")
-                sys.exit
+                sys.exit()
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
             print1("You search around the hallway, but aside from the molten rock embedded in the wall, nothing stands out")
             print1(name+": Nothing useful...")
@@ -726,7 +726,7 @@ def Distain(): # Sewer
             print1("You're caught and burned alive, quite painfully, but at least it was faster than being engulfed in fire")
             print3("ENDING 11")
             print1(" | 'Maybe you can hang out with that ghost in the afterlife, if they're even dead (they aren't)'")
-            sys.exit
+            sys.exit()
         elif choice in ["2", "second" "the second path"]:
             print1("You slide down the second path, and find yourself in an...")
             print1("Unloaded room?")
@@ -747,7 +747,7 @@ def Distain(): # Sewer
             print1("Immediately")
             print3("ENDING 12")
             print1(" | 'I genueinly ran out of ideas. Its been like 5 straight days of writing code and creating concepts, Mr. Nagra please let me out of the basement'")
-            sys.exit
+            sys.exit()
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
             print1("You search around the hallway, but aside from the stones decorating the floor, nothing stands out")
             print1(name+": Nothing useful...")
@@ -1014,7 +1014,7 @@ def Ice(): # Frost
                 print1("You pass out from blood loss")
                 print3("ENDING 4")
                 print1(" | 'You managed to kill a magic wielding ice totem, and you died to a robber?'")
-                sys.exit
+                sys.exit()
 
         elif choice in ["2", "second" "the second path"]:
             print("You walk through the path on the right, and find yourself looking at a frozen human")
@@ -1054,7 +1054,7 @@ def Ice(): # Frost
                 print1("Before you can make it out in time, a sinkhole opens beneath you, and you're crushed by the debris")
                 print3("ENDING 10")
                 print1(" | 'Mmmm ancient rome smoothie mmm delicious'")
-                sys.exit
+                sys.exit()
         elif choice in ["3", "explore" "maybe I should explore a bit more"]:
             print1("You search around the hallway, but aside from the seemingly random sets of icicles, nothing stands out")
             print1(name+": Nothing useful...")
