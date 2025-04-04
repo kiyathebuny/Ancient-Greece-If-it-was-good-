@@ -504,6 +504,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             attack_name_2 = "Dragon Breath"
             attack_name_3 = "Flamethrower"
             fighting()
+            print("")
             if player_HP <= 0:
                 print1("The heat from the dragon scorches your body")
                 print1("You're engulfed in flames, and all the scars on your body melt")
@@ -543,6 +544,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
             attack_name_2 = "Explosive Blast"
             attack_name_3 = "Set your heart ablaze" #This does 1-100 damage randomly
             fighting()
+            print("")
             if player_HP <= 0:
                 game_state["infernal_knight"] = False
                 print1("The knight cleaves off one of your limbs")
@@ -709,6 +711,7 @@ def Distain(): # Sewer
             attack_name_2 = "Insomniac Stare"
             attack_name_3 = "Life Contemplation" # These names dont actually do anything since she shouldn't be able to attack
             fighting()
+            print("")
             print1("You see the ghost fade away, leaving behind a key")
             print1("You pick up the key and unlock the back door of the house-cave thing (even I have no idea how this room looks)")
             print1("The door opens to reveal the daylight you've missed so badly")
@@ -743,8 +746,6 @@ def Distain(): # Sewer
             print3("ENDING 12")
             print1(" | 'I genueinly ran out of ideas. Its been like 5 straight days of writing code and creating concepts, Mr. Nagra please let me out of the basement'")
             sys.exit
-
-            fighting()
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
             print1("You search around the hallway, but aside from the stones decorating the floor, nothing stands out")
             print1(name+": Nothing useful...")
@@ -983,6 +984,7 @@ def Ice(): # Frost
             attack_name_2 = "Icicle Toss"
             attack_name_3 = "Spear of Ice"
             fighting()
+            print("")
             if player_HP <= 0:
                 game_state["totem"] = False
                 print1("As you attempt to keep moving forward, the ice in your body causes you to freeze")
@@ -1021,6 +1023,7 @@ def Ice(): # Frost
             attack_name_2 = "Stalactite"
             attack_name_3 = "Pillar of Ice"
             fighting()
+            print("")
             if player_HP <= 0:
                 game_state["lich"] = False
                 print1("The lich manages to freeze one of your legs")
