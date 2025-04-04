@@ -16,7 +16,7 @@ def print1(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush() #this two line input and prints each character one by one
-        time.sleep(0.005) #our typing delay
+        time.sleep(0.005) #our typing delay 
     print()#for spacing
 
 def print2(str):
@@ -925,8 +925,8 @@ def IcePuzzle():
             if game_state ["cube_west"] == False:
                 print1("You shuffle over to the west wall, where you see a mural placed in clear view... well... however clear this dark room is")
                 print1("Would you like to investigate the mural cube? \n1. Yes \n2. No")
+                choice = get_input("")
                 if choice in ["1", "yes"]:
-                    choice = get_input("")
                     print1("The mural shows a diagram of 4 people worshipping a cube. The next panel shows the cube, uh, (wait am I seeing this right)")
                     print1("Ahem, the next mural shows 3 of those people being sacrificed to the cube. Brutally. In fact, this would probably be rated M if there were visuals")
                     print1(name +": oh that's, that's gore...")# HE SAID IT HE SAID THE THING OH MY GOD
