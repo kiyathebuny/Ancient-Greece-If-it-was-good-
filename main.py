@@ -601,7 +601,7 @@ def DistainBridge():
             print1("You make it to the other side of the bridge, intact, very impressive!")
             print1("The hallway in front of you clears up, increasing the visibility a little")
             print1(name+": 'Guess I'll keep moving...'")
-            break
+            Distain()
         else:
             print1(f"You've crossed {distance_counter}/10 meters of the bridge!")
             print1("'How should I cross this part of the bridge' \n1. Fast and dangerous\n2. Steady and careful\n3. Slow and cautious")
@@ -680,19 +680,11 @@ def DistainPuzzle():
                 print1("it can't see you anymore")
                 print1(name+": Maybe it's triggered by... movement?")
                 DistainBridge()
-                break
+                
 
 
 def Distain(): # Sewer
     global enemy_HP, enemy_miss_chance, player_miss_chance, attack_name_1, attack_name_2, attack_name_3, player_HP
-    print1("Walking through the smokey hallway in front of you leads you to a rickety looking bridge")
-    print1("The bridge seems to be made of old planks, tethered with flayed ropes, and held together by a highschool students hopes and dreams") #just like pygame
-    print1("wait a minute...")
-    print1(name+": 'How is there a bridge in this narrow cavern?'")
-    print1("(uhh worldbuilding you gotta believe me)")
-    DistainPuzzle()
-
-
     print1("As you continue to walk through the seemingly normal hallway, you come across a split path")
     print1(name + ": Yeah, what did I expect...")
     while True:
@@ -1017,7 +1009,12 @@ def Ice(): # Frost
                 sys.exit()
 
         elif choice in ["2", "second" "the second path"]:
-            print("You walk through the path on the right, and find yourself looking at a frozen human")
+            print1("You walk through the path on the right, and find yourself looking at a frozen human")
+            print1("Looking up from it, you see a field of similar frozen people")
+            print1(name+": What the hell happened here?")
+            print1("As if to answer your question, you see what seems to be another frozen person start to float above the rest")
+            print1("His head and lower body appear to be made of ice, but its eyes glow a fierce yellow")
+            print1("It screeches, before lunging at you")
             game_state["lich"] = True
             enemy_HP = 100 # Stats for the Ice Lich
             enemy_miss_chance = 10
@@ -1215,7 +1212,12 @@ while True: # Door choice sequence
         print1(name + ": Oh. My bad")
         print2("...")
         print1(name + ": Wait, who am I talking to?")
-        Distain()
+        print1("Walking through the smokey hallway in front of you leads you to a rickety looking bridge")
+        print1("The bridge seems to be made of old planks, tethered with flayed ropes, and held together by a highschool students hopes and dreams") #just like pygame
+        print1("wait a minute...")
+        print1(name+": 'How is there a bridge in this narrow cavern?'")
+        print1("(uhh worldbuilding you gotta believe me)")
+        DistainPuzzle()
     elif choice in ["3", "ice", "trial of ice"]:
         clear()
         print1(name + ": I choose... the third door")
