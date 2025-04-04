@@ -739,6 +739,7 @@ def Distain(): # Sewer
             print1("Immediately")
             print3("ENDING 12")
             print1(" | 'I genueinly ran out of ideas. Its been like 5 straight days of writing code and creating concepts, Mr. Nagra please let me out of the basement'")
+            exit
 
             fighting()
         elif choice in ["3", "explore" "maybe i should explore a bit more"]:
