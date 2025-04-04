@@ -516,6 +516,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
                 print("However, it's important to note that actual melting of the eyeball tissues is unlikely to occur in a literal sense, as the eye is composed of various tissues rather than a single material that would melt. Instead, high temperatures would cause burning, charring, and irreversible damage. ")
                 print() # This some LCE E.G.O Lantern Yi Sang stuff I can't lie
                 print1("Always exercise caution to protect your eyes from extreme conditions.")
+                player_HP = 100
             else:
                 print1("As your last strike reaches the dragon, it flails around a bit, before collapsing")
                 print1("It seems to be dead, or maybe unconscious. Hopefully dead")
@@ -554,6 +555,7 @@ def Fire(): # Flame <--- this is the equivalent of our folder of code ig basical
                 print2("...")
                 print3("ENDING 8")
                 print1(" | 'Was that a demon slayer reference?'") # nooooooo... (maybee)
+                player_HP = 100
             else:
                 print1("You manage to hit one of the knights joints, as the armor starts to fall apart")
                 print1("The flames die down, and the room feels cooler")
@@ -993,6 +995,7 @@ def Ice(): # Frost
                 print2("...")
                 print3("ENDING 6")
                 print1(" | 'Death by being Canadian'")
+                player_HP = 100
             else:
                 print1("The totem pole shatters upon your strike")
                 print1("You notice the door on the other side of the room open up")
@@ -1033,6 +1036,7 @@ def Ice(): # Frost
                 print1("And then you feel, well, actually you don't")
                 print3("ENDING 10")
                 print1(" | 'School nurse if she could legally prescribe more ice'")
+                player_HP = 100
             else:
                 print1("The lich screeches as your sword pierces its skull")
                 print1("You notice the door on the other side of the room open up")
