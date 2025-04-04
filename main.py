@@ -137,8 +137,7 @@ def fighting():
                     return
 
                 elif enemy_attack_type == 10:
-                    if game_state["infernal_knight"] == False:enemy_dmg = random.randint(25, 30)
-                    else:enemy_dmg = random.randint(1, 100) # GAMBLE MOVE BABYY
+                    enemy_dmg = random.randint(25, 30) # GAMBLE MOVE BABYY
                     print1 (f"The Enemy used {attack_name_3}")
                     player_HP = max(0, player_HP - enemy_dmg)
                     clear()
