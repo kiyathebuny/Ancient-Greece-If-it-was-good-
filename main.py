@@ -984,7 +984,7 @@ def Ice(): # Frost
             attack_name_2 = "Icicle Toss"
             attack_name_3 = "Spear of Ice"
             fighting()
-            if player_HP >= 0:
+            if player_HP <= 0:
                 game_state["totem"] = False
                 print1("As you attempt to keep moving forward, the ice in your body causes you to freeze")
                 print1("No longer able to move, the totem hits every strike")
@@ -1021,7 +1021,7 @@ def Ice(): # Frost
             attack_name_2 = "Stalactite"
             attack_name_3 = "Pillar of Ice"
             fighting()
-            if player_HP >= 0:
+            if player_HP <= 0:
                 game_state["lich"] = False
                 print1("The lich manages to freeze one of your legs")
                 print1(name+": 'Oh, I can't move, damn'")
