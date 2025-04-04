@@ -103,7 +103,6 @@ def fighting():
     attack_2 = 0
     heal = 0
     shuffle_counter = 0
-    freeze = 0
     talk = 0
 
     def enemy_attack_type():
@@ -137,12 +136,11 @@ def fighting():
                     return
 
                 elif enemy_attack_type == 10:
-                    enemy_dmg = random.randint(25, 30) # GAMBLE MOVE BABYY
+                    enemy_dmg = random.randint(25, 30)
                     print1 (f"The Enemy used {attack_name_3}")
                     player_HP = max(0, player_HP - enemy_dmg)
                     clear()
                     print1(f"The enemy strikes you for {enemy_dmg} damage!")
-                    freeze += 1
                     return
 
     while enemy_HP > 0:
@@ -168,8 +166,7 @@ def fighting():
         if game_state["cube_south"]: print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk \n4. Slide forwards")
         elif (game_state["lich"] == True): print1("You're frozen by the lich!")
         else:print1 ("What would you like to do: \n1. Slash \n2. Stab \n3. Talk"),
-        if freeze == 0 or game_state["lich"] == False: choice = get_input("")
-        else: freeze -=1
+        choice = get_input("")
         if choice in ["1" , " slash"]:
             damage_rate = random.randint(15 , 30) + damage
             clear()
