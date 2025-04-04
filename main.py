@@ -770,7 +770,7 @@ def EastWall():
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print()
-        if player_HP >= 0:
+        if player_HP <= 0:
             icedeath()
         print1(name+": 'Awesome! What now...' \n1. Press a random button\n2. Press all 3 buttons \n3. Just slash the ice and take it")
         choice = get_input("")
@@ -816,7 +816,7 @@ def WestWall():
         empty_space2 = ' ' * (10 - player_bar)
         print(f"\rplayer HP: [{health_bar2}{empty_space2}] {player_HP}", end='', flush=True)
         print()
-        if player_HP >= 0:
+        if player_HP <= 0:
             icedeath()
         print1(name+": 'What does this mural want me to do?' \n1. Start worshipping the cube\n2.  Sacrifice yourself to the cube\n3. Smash the mural and take the cube")
         choice = get_input("")
